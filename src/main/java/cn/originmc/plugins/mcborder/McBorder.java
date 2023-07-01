@@ -22,8 +22,8 @@ public final class McBorder extends JavaPlugin {
     public void onEnable() {
         instance=this;
         saveDefaultConfig();
-        saveResource("lang/Chinese.yml",false);
-        saveResource("lang/English.yml",false);
+        saveResource("lang/Chinese.yml",true);
+        saveResource("lang/English.yml",true);
         LangData.getData();
         PlaceholderAPIHook.hook(getInstance());
         CommandRegister.register(getInstance(),new McBorderCommand(),"McBorder");

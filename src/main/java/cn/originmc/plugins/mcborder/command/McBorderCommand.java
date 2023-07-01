@@ -229,6 +229,7 @@ public class McBorderCommand implements CommandExecutor {
             }
             McBorder.getInstance().reloadConfig();
             LangData.getData();
+            s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "reload-successful", "&a重载成功！"));
             return true;
         }else if (cu.is(0, "setwarning")) {
             if (!cu.isAdmin()) {
