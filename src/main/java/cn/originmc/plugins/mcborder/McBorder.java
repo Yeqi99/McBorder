@@ -29,7 +29,7 @@ public final class McBorder extends JavaPlugin {
         CommandRegister.register(getInstance(),new McBorderCommand(),"McBorder");
         CompleterRegister.register(getInstance(),new McBorderCompleter(),"McBorder");
         new Sender(this).sendToLogger("");
-        new Sender(this).sendToLogger("&b     McBorder  v2.0-Dependency  Successfully loaded");
+        new Sender(this).sendToLogger("&b     McBorder  v2.1-Dependency  Successfully loaded");
         new Sender(this).sendToLogger("&d                    Made by Yeqi");
         new Sender(this).sendToLogger("");
     }
@@ -37,7 +37,7 @@ public final class McBorder extends JavaPlugin {
     @Override
     public void onDisable() {
         new Sender(this).sendToLogger("");
-        new Sender(this).sendToLogger("&b     McBorder  v2.0-Dependency  Successfully unloaded");
+        new Sender(this).sendToLogger("&b     McBorder  v2.1-Dependency  Successfully unloaded");
         new Sender(this).sendToLogger("&d                    Made by Yeqi");
         new Sender(this).sendToLogger("");
     }

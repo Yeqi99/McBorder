@@ -296,12 +296,15 @@ public class McBorderCommand implements CommandExecutor {
                 s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "world-does-not-exist", "&c世界不存在"));
                 return true;
             }
-
+            int time=0;
+            if (cu.getParameterAmount()==4){
+                time= Integer.parseInt(cu.getParameter(3));
+            }
             WorldBorder worldBorder = world.getWorldBorder();
             double currentSize = worldBorder.getSize();
             double newSize = currentSize + increaseValue;
 
-            worldBorder.setSize(newSize);
+            worldBorder.setSize(newSize,time);
             s.sendToSender(sender, "世界边界尺寸已增加至 " + newSize);
             return true;
         } else if (cu.is(0, "reduce")) {
@@ -328,12 +331,15 @@ public class McBorderCommand implements CommandExecutor {
                 s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "world-does-not-exist", "&c世界不存在"));
                 return true;
             }
-
+            int time=0;
+            if (cu.getParameterAmount()==4){
+                time= Integer.parseInt(cu.getParameter(3));
+            }
             WorldBorder worldBorder = world.getWorldBorder();
             double currentSize = worldBorder.getSize();
             double newSize = currentSize - reduceValue;
 
-            worldBorder.setSize(newSize);
+            worldBorder.setSize(newSize,time);
             s.sendToSender(sender, "世界边界尺寸已减少至 " + newSize);
             return true;
         }
