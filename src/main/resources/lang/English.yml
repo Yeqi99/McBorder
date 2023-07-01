@@ -17,6 +17,10 @@ help:
   - "&7|Increase the size of a world border"
   - "&c/McBorder(mb) reduce <world> <reduceValue>"
   - "&7|Reduce the size of a world border"
+  - "&c/McBorder(mb) getcenter <world>"
+  - "&7|Obtain the world center coordinates of the specified world"
+  - "&c/McBorder(mb) getsize <world>"
+  - "&7|Obtain the boundary size of the specified world"
 
 insufficient-parameters: "&cInsufficient parameters"
 insufficient-permissions: "&cInsufficient permissions"

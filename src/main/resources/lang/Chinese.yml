@@ -17,6 +17,10 @@ help:
   - "&7|增加世界边界的大小"
   - "&c/McBorder(mb) reduce <world> <reduceValue>"
   - "&7|减少世界边界的大小"
+  - "&c/McBorder(mb) getcenter <world>"
+  - "&7|获得指定世界的世界中心坐标"
+  - "&c/McBorder(mb) getsize <world>"
+  - "&7|获得指定世界的边界大小"
 
 insufficient-parameters: "&c参数不足"
 insufficient-permissions: "&c权限不足"

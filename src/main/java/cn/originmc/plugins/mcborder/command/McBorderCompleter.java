@@ -26,6 +26,8 @@ public class McBorderCompleter implements TabCompleter {
             completions.add("setwarning");
             completions.add("increase");
             completions.add("reduce");
+            completions.add("getcenter");
+            completions.add("getsize");
         } else if (args.length >= 2) {
             String subCommand = args[0];
 
@@ -78,6 +80,10 @@ public class McBorderCompleter implements TabCompleter {
                     completions.addAll(getWorldNames());
                 } else if (args.length == 3) {
                     completions.add("<increaseValue>");
+                }
+            } else if (subCommand.equalsIgnoreCase("getsize") || subCommand.equalsIgnoreCase("getcenter")){
+                if (args.length == 2) {
+                    completions.addAll(getWorldNames());
                 }
             }
         }
