@@ -1,0 +1,10 @@
+name: McBorder
+version: '${project.version}'
+main: cn.originmc.plugins.mcborder.McBorder
+api-version: 1.13
+authors: [ Yeqi ]
+commands:
+  Mcborder:
+    aliases:
+      - border
+      - mb
