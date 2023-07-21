@@ -1,11 +1,11 @@
 help:
   - "&c/McBorder(mb) help"
   - "&7|查看插件帮助"
-  - "&c/McBorder(mb) setborder <world> <sideLen> [time]"
+  - "&c/McBorder(mb) setborder <world> <size> [time]"
   - "&7|设置世界边界的大小"
   - "&c/McBorder(mb) setcenter <world> <x> <z>"
   - "&7|设置世界边界的中心点"
-  - "&c/McBorder(mb) setplayer <player> [size] [time]"
+  - "&c/McBorder(mb) setplayer <player> <size> [time]"
   - "&7|设置玩家所在世界的边界大小并居中"
   - "&c/McBorder(mb) reborder <world>"
   - "&7|重置指定世界的边界"
@@ -21,6 +21,10 @@ help:
   - "&7|获得指定世界的世界中心坐标"
   - "&c/McBorder(mb) getsize <world>"
   - "&7|获得指定世界的边界大小"
+  - "&c/McBorder(mb) rtp <player> <world>"
+  - "&7|让指定玩家在指定世界的边境里随机传送"
+  - "&c/McBorder(mb) reload"
+  - "&7|重载插件"
 
 
 insufficient-parameters: "&c参数不足"

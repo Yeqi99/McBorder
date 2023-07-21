@@ -18,85 +18,105 @@ public class McBorderCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-
         if (args.length == 1) {
-            completions.add("help");
-            completions.add("setborder");
-            completions.add("setcenter");
-            completions.add("setplayer");
-            completions.add("reborder");
-            completions.add("replayer");
-            completions.add("setwarning");
-            completions.add("increase");
-            completions.add("reduce");
-            completions.add("getcenter");
-            completions.add("getsize");
-            completions.add("rtp");
+            // 检查是否有help权限，只有有help权限的玩家才能看到help相关补全
+            if (sender.hasPermission("McBorder.help")) {
+                completions.add("help");
+            }
+            if (sender.hasPermission("McBorder.setborder")) completions.add("setborder");
+            if (sender.hasPermission("McBorder.setcenter")) completions.add("setcenter");
+            if (sender.hasPermission("McBorder.setplayer")) completions.add("setplayer");
+            if (sender.hasPermission("McBorder.reborder")) completions.add("reborder");
+            if (sender.hasPermission("McBorder.replayer")) completions.add("replayer");
+            if (sender.hasPermission("McBorder.setwarning")) completions.add("setwarning");
+            if (sender.hasPermission("McBorder.increase")) completions.add("increase");
+            if (sender.hasPermission("McBorder.reduce")) completions.add("reduce");
+            if (sender.hasPermission("McBorder.getcenter")) completions.add("getcenter");
+            if (sender.hasPermission("McBorder.getsize")) completions.add("getsize");
+            if (sender.hasPermission("McBorder.rtp")) completions.add("rtp");
+            if (sender.hasPermission("McBorder.reload")) completions.add("reload");
         } else if (args.length >= 2) {
+            // 同样，检查每个子命令的权限，只有玩家拥有对应的权限才能看到相关补全
             String subCommand = args[0];
-
             if (subCommand.equalsIgnoreCase("setborder")) {
-                if (args.length == 2) {
-                    completions.addAll(getWorldNames());
-                } else if (args.length == 3) {
-                    completions.add("<sideLen>");
-                } else if (args.length == 4) {
-                    completions.add("[time]");
+                if (sender.hasPermission("McBorder.setborder")) {
+                    if (args.length == 2) {
+                        completions.addAll(getWorldNames());
+                    } else if (args.length == 3) {
+                        completions.add("<sideLen>");
+                    } else if (args.length == 4) {
+                        completions.add("[time]");
+                    }
                 }
             } else if (subCommand.equalsIgnoreCase("setcenter")) {
-                if (args.length == 2) {
-                    completions.addAll(getWorldNames());
-                } else if (args.length == 3) {
-                    completions.add("<x>");
-                } else if (args.length == 4) {
-                    completions.add("<z>");
+                if (sender.hasPermission("McBorder.setcenter")) {
+                    if (args.length == 2) {
+                        completions.addAll(getWorldNames());
+                    } else if (args.length == 3) {
+                        completions.add("<x>");
+                    } else if (args.length == 4) {
+                        completions.add("<z>");
+                    }
                 }
             } else if (subCommand.equalsIgnoreCase("setplayer")) {
-                if (args.length == 2) {
-                    completions.addAll(getPlayerNames());
-                } else if (args.length == 3) {
-                    completions.add("[size]");
-                } else if (args.length == 4) {
-                    completions.add("[time]");
+                if (sender.hasPermission("McBorder.setplayer")) {
+                    if (args.length == 2) {
+                        completions.addAll(getPlayerNames());
+                    } else if (args.length == 3) {
+                        completions.add("[size]");
+                    } else if (args.length == 4) {
+                        completions.add("[time]");
+                    }
                 }
             } else if (subCommand.equalsIgnoreCase("reborder")) {
-                if (args.length == 2) {
-                    completions.addAll(getWorldNames());
+                if (sender.hasPermission("McBorder.reborder")) {
+                    if (args.length == 2) {
+                        completions.addAll(getWorldNames());
+                    }
                 }
             } else if (subCommand.equalsIgnoreCase("replayer")) {
-                if (args.length == 2) {
-                    completions.addAll(getPlayerNames());
+                if (sender.hasPermission("McBorder.replayer")) {
+                    if (args.length == 2) {
+                        completions.addAll(getPlayerNames());
+                    }
                 }
             } else if (subCommand.equalsIgnoreCase("setwarning")) {
-                if (args.length == 2) {
-                    completions.addAll(getWorldNames());
-                } else if (args.length == 3) {
-                    completions.add("<warningDistance>");
-                } else if (args.length == 4) {
-                    completions.add("<warningTime>");
-                } else if (args.length == 5) {
-                    completions.add("<bufferDistance>");
-                } else if (args.length == 6) {
-                    completions.add("<damageAmount>");
+                if (sender.hasPermission("McBorder.setwarning")) {
+                    if (args.length == 2) {
+                        completions.addAll(getWorldNames());
+                    } else if (args.length == 3) {
+                        completions.add("<warningDistance>");
+                    } else if (args.length == 4) {
+                        completions.add("<warningTime>");
+                    } else if (args.length == 5) {
+                        completions.add("<bufferDistance>");
+                    } else if (args.length == 6) {
+                        completions.add("<damageAmount>");
+                    }
                 }
             } else if (subCommand.equalsIgnoreCase("increase") || subCommand.equalsIgnoreCase("reduce")) {
-                if (args.length == 2) {
-                    completions.addAll(getWorldNames());
-                } else if (args.length == 3) {
-                    completions.add("<increaseValue>");
-                }else if (args.length == 4) {
-                    completions.add("[time]");
+                if (sender.hasPermission("McBorder.increase") || sender.hasPermission("McBorder.reduce")) {
+                    if (args.length == 2) {
+                        completions.addAll(getWorldNames());
+                    } else if (args.length == 3) {
+                        completions.add("<increaseValue>");
+                    } else if (args.length == 4) {
+                        completions.add("[time]");
+                    }
                 }
-            } else if (subCommand.equalsIgnoreCase("getsize") || subCommand.equalsIgnoreCase("getcenter")){
-                if (args.length == 2) {
-                    completions.addAll(getWorldNames());
+            } else if (subCommand.equalsIgnoreCase("getsize") || subCommand.equalsIgnoreCase("getcenter")) {
+                if (sender.hasPermission("McBorder.getsize") || sender.hasPermission("McBorder.getcenter")) {
+                    if (args.length == 2) {
+                        completions.addAll(getWorldNames());
+                    }
                 }
-            }
-            else if (subCommand.equalsIgnoreCase("rtp")){
-                if (args.length == 2) {
-                    completions.addAll(getPlayerNames());
-                } else if (args.length == 3) {
-                    completions.addAll(getWorldNames());
+            } else if (subCommand.equalsIgnoreCase("rtp")) {
+                if (sender.hasPermission("McBorder.rtp")) {
+                    if (args.length == 2) {
+                        completions.addAll(getPlayerNames());
+                    } else if (args.length == 3) {
+                        completions.addAll(getWorldNames());
+                    }
                 }
             }
         }
@@ -107,7 +127,6 @@ public class McBorderCompleter implements TabCompleter {
 
         return completions;
     }
-
     private List<String> getWorldNames() {
         List<String> worldNames = new ArrayList<>();
         for (World world : Bukkit.getWorlds()) {

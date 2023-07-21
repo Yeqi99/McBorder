@@ -3,8 +3,14 @@ package cn.originmc.plugins.mcborder.command;
 import cn.originmc.plugins.mcborder.BiomeTranslation;
 import cn.originmc.plugins.mcborder.McBorder;
 import cn.originmc.plugins.mcborder.data.LangData;
+import cn.originmc.plugins.mcborder.listener.RTPEvent;
 import cn.originmc.plugins.mcborder.util.command.CommandUtil;
 import cn.originmc.plugins.mcborder.util.text.Sender;
+import com.google.common.util.concurrent.AbstractScheduledService;
+import io.papermc.paper.threadedregions.scheduler.AsyncScheduler;
+import io.papermc.paper.threadedregions.scheduler.EntityScheduler;
+import io.papermc.paper.threadedregions.scheduler.RegionScheduler;
+import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
@@ -18,6 +24,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 
 public class McBorderCommand implements CommandExecutor {
     @Override
@@ -346,8 +353,7 @@ public class McBorderCommand implements CommandExecutor {
             worldBorder.setSize(newSize,time);
             s.sendToSender(sender, "世界边界尺寸已减少至 " + newSize);
             return true;
-        }
-        else if (cu.is(0, "rtp")){
+        } else if (cu.is(0, "rtp")){
             if (!cu.isAdmin() && !cu.hasPerm("McBorder.rtp")) {
                 s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
                 return true;
@@ -416,18 +422,11 @@ public class McBorderCommand implements CommandExecutor {
         // 在以中心点为基准的世界边界范围内随机生成坐标
         int randomX = randInt(centerX + minBorderSize, centerX + maxBorderSize);
         int randomZ = randInt(centerZ + minBorderSize, centerZ + maxBorderSize);
-
-        // 获取随机坐标对应的地面高度
-        int y = world.getHighestBlockYAt(randomX, randomZ)+1;
-
-        world.loadChunk(randomX >> 4, randomZ >> 4, false);
-
-        // 将玩家传送到随机坐标，并确保站在地面上
-        if (isFolia() || isPaper()) {
-            player.teleportAsync(new Location(world, randomX + 0.5, y, randomZ + 0.5),PlayerTeleportEvent.TeleportCause.COMMAND);
-        } else {
-            player.teleport(new Location(world, randomX + 0.5, y, randomZ + 0.5),PlayerTeleportEvent.TeleportCause.COMMAND);
-        }
+        Bukkit.getRegionScheduler().execute(McBorder.getInstance(),world,randomX,randomZ, () -> {
+            Location location=new Location(world, randomX + 0.5, McBorder.getInstance().getConfig().getDouble("rtp.falling_height",384), randomZ + 0.5);
+            RTPEvent.giveFallDamageImmunity(player);
+            player.teleportAsync(location,PlayerTeleportEvent.TeleportCause.COMMAND);
+        });
         return true;
     }
 

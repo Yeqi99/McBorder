@@ -1,1 +1,5 @@
 lang: Chinese
+rtp:
+  # ms
+  fall_immunity_time: 10000
+  falling_height: 384

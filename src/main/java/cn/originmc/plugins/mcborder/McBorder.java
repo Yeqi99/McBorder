@@ -4,8 +4,10 @@ import cn.originmc.plugins.mcborder.command.McBorderCommand;
 import cn.originmc.plugins.mcborder.command.McBorderCompleter;
 import cn.originmc.plugins.mcborder.data.LangData;
 import cn.originmc.plugins.mcborder.hook.PlaceholderAPIHook;
+import cn.originmc.plugins.mcborder.listener.RTPEvent;
 import cn.originmc.plugins.mcborder.util.register.CommandRegister;
 import cn.originmc.plugins.mcborder.util.register.CompleterRegister;
+import cn.originmc.plugins.mcborder.util.register.ListenerRegister;
 import cn.originmc.plugins.mcborder.util.text.Sender;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,6 +28,7 @@ public final class McBorder extends JavaPlugin {
         saveResource("lang/English.yml",true);
         LangData.getData();
         PlaceholderAPIHook.hook(getInstance());
+        ListenerRegister.register(getInstance(),new RTPEvent());
         CommandRegister.register(getInstance(),new McBorderCommand(),"McBorder");
         CompleterRegister.register(getInstance(),new McBorderCompleter(),"McBorder");
         new Sender(this).sendToLogger("");
