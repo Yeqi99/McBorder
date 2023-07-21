@@ -420,6 +420,8 @@ public class McBorderCommand implements CommandExecutor {
         // 获取随机坐标对应的地面高度
         int y = world.getHighestBlockYAt(randomX, randomZ)+1;
 
+        world.loadChunk(randomX >> 4, randomZ >> 4, false);
+
         // 将玩家传送到随机坐标，并确保站在地面上
         if (isFolia() || isPaper()) {
             player.teleportAsync(new Location(world, randomX + 0.5, y, randomZ + 0.5),PlayerTeleportEvent.TeleportCause.COMMAND);
