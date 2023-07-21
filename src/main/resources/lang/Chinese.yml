@@ -22,6 +22,7 @@ help:
   - "&c/McBorder(mb) getsize <world>"
   - "&7|获得指定世界的边界大小"
 
+
 insufficient-parameters: "&c参数不足"
 insufficient-permissions: "&c权限不足"
 world-does-not-exist: "&c世界不存在"

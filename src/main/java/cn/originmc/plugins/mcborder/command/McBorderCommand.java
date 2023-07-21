@@ -1,19 +1,23 @@
 package cn.originmc.plugins.mcborder.command;
 
+import cn.originmc.plugins.mcborder.BiomeTranslation;
 import cn.originmc.plugins.mcborder.McBorder;
 import cn.originmc.plugins.mcborder.data.LangData;
 import cn.originmc.plugins.mcborder.util.command.CommandUtil;
 import cn.originmc.plugins.mcborder.util.text.Sender;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.WorldBorder;
+import org.bukkit.*;
+import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.List;
+import java.util.Random;
 
 public class McBorderCommand implements CommandExecutor {
     @Override
@@ -343,6 +347,23 @@ public class McBorderCommand implements CommandExecutor {
             s.sendToSender(sender, "世界边界尺寸已减少至 " + newSize);
             return true;
         }
+        else if (cu.is(0, "rtp")){
+            if (!cu.isAdmin() && !cu.hasPerm("McBorder.rtp")) {
+                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
+                return true;
+            }
+            String playerName=cu.getParameter(1);
+            if (playerName==null){
+                return true;
+            }
+            String worldName=cu.getParameter(2);
+            if (worldName==null){
+                return true;
+            }
+            rtp(playerName,worldName);
+            return true;
+        }
+
         return true;
     }
     public static boolean isNumber(String inStrNumber) {
@@ -362,11 +383,67 @@ public class McBorderCommand implements CommandExecutor {
             // 处理世界不存在的情况
             return;
         }
-
         WorldBorder worldBorder = world.getWorldBorder();
         worldBorder.setWarningDistance((int) warningDistance);
         worldBorder.setWarningTime(warningTime);
         worldBorder.setDamageBuffer(bufferDistance);
         worldBorder.setDamageAmount(damageAmount);
+    }
+    public boolean rtp(String playerName, String worldName) {
+        Player player = Bukkit.getPlayer(playerName);
+
+        // 检查玩家是否在线
+        if (player == null) {
+            return false;
+        }
+
+        World world = Bukkit.getWorld(worldName);
+
+        // 检查世界是否存在
+        if (world == null) {
+            return false;
+        }
+
+        // 获取世界边界信息
+        double borderSize = world.getWorldBorder().getSize();
+        int maxBorderSize = (int) (borderSize / 2);
+        int minBorderSize = -maxBorderSize;
+
+        // 获取世界边界中心坐标
+        int centerX = (int) world.getWorldBorder().getCenter().getX();
+        int centerZ = (int) world.getWorldBorder().getCenter().getZ();
+
+        // 在以中心点为基准的世界边界范围内随机生成坐标
+        int randomX = randInt(centerX + minBorderSize, centerX + maxBorderSize);
+        int randomZ = randInt(centerZ + minBorderSize, centerZ + maxBorderSize);
+
+        // 获取随机坐标对应的地面高度
+        int y = world.getHighestBlockYAt(randomX, randomZ)+1;
+
+        // 将玩家传送到随机坐标，并确保站在地面上
+        if (isFolia() || isPaper()) {
+            player.teleportAsync(new Location(world, randomX + 0.5, y, randomZ + 0.5),PlayerTeleportEvent.TeleportCause.COMMAND);
+        } else {
+            player.teleport(new Location(world, randomX + 0.5, y, randomZ + 0.5),PlayerTeleportEvent.TeleportCause.COMMAND);
+        }
+        return true;
+    }
+
+    // 辅助方法：生成指定范围内的随机整数
+    private int randInt(int min, int max) {
+        return min + (int) (Math.random() * ((max - min) + 1));
+    }
+    public static String getVersion() {
+        Server server = Bukkit.getServer();
+        String version = server.getVersion().toLowerCase();
+
+        // 判断是否为 Paper 环境
+        return version;
+    }
+    public static boolean isPaper(){
+        return getVersion().contains("paper");
+    }
+    public static boolean isFolia(){
+        return getVersion().contains("folia");
     }
 }

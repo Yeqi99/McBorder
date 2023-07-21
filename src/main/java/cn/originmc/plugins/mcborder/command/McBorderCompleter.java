@@ -1,8 +1,11 @@
 package cn.originmc.plugins.mcborder.command;
 
 
+import cn.originmc.plugins.mcborder.BiomeTranslation;
+import cn.originmc.plugins.mcborder.McBorder;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -28,6 +31,7 @@ public class McBorderCompleter implements TabCompleter {
             completions.add("reduce");
             completions.add("getcenter");
             completions.add("getsize");
+            completions.add("rtp");
         } else if (args.length >= 2) {
             String subCommand = args[0];
 
@@ -88,6 +92,13 @@ public class McBorderCompleter implements TabCompleter {
                     completions.addAll(getWorldNames());
                 }
             }
+            else if (subCommand.equalsIgnoreCase("rtp")){
+                if (args.length == 2) {
+                    completions.addAll(getPlayerNames());
+                } else if (args.length == 3) {
+                    completions.addAll(getWorldNames());
+                }
+            }
         }
 
         // Filter completions based on the current argument
@@ -112,4 +123,12 @@ public class McBorderCompleter implements TabCompleter {
         }
         return playerNames;
     }
+    private List<String> getBiomes(){
+        List<String> biomeNames=new ArrayList<>();
+        for (Biome value : Biome.values()) {
+            biomeNames.add(value.name());
+        }
+        return biomeNames;
+    }
+
 }
