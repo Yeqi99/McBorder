@@ -425,7 +425,11 @@ public class McBorderCommand implements CommandExecutor {
         Bukkit.getRegionScheduler().execute(McBorder.getInstance(),world,randomX,randomZ, () -> {
             Location location=new Location(world, randomX + 0.5, McBorder.getInstance().getConfig().getDouble("rtp.falling_height",384), randomZ + 0.5);
             RTPEvent.giveFallDamageImmunity(player);
-            player.teleportAsync(location,PlayerTeleportEvent.TeleportCause.COMMAND);
+            if (isPaper()||isFolia()){
+                player.teleportAsync(location,PlayerTeleportEvent.TeleportCause.COMMAND);
+            }else {
+                player.teleport(location,PlayerTeleportEvent.TeleportCause.COMMAND);
+            }
         });
         return true;
     }
