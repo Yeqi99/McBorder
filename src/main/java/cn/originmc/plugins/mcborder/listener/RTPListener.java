@@ -9,7 +9,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.*;
 
-public class RTPEvent implements Listener {
+public class RTPListener implements Listener {
     private static Map<UUID, Long> immunePlayers = new HashMap<>();
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {

@@ -1,30 +1,18 @@
 package cn.originmc.plugins.mcborder.command;
 
-import cn.originmc.plugins.mcborder.BiomeTranslation;
 import cn.originmc.plugins.mcborder.McBorder;
 import cn.originmc.plugins.mcborder.data.LangData;
-import cn.originmc.plugins.mcborder.listener.RTPEvent;
+import cn.originmc.plugins.mcborder.listener.RTPListener;
 import cn.originmc.plugins.mcborder.util.command.CommandUtil;
 import cn.originmc.plugins.mcborder.util.text.Sender;
-import com.google.common.util.concurrent.AbstractScheduledService;
-import io.papermc.paper.threadedregions.scheduler.AsyncScheduler;
-import io.papermc.paper.threadedregions.scheduler.EntityScheduler;
-import io.papermc.paper.threadedregions.scheduler.RegionScheduler;
-import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import org.bukkit.*;
-import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.CompletableFuture;
 
 public class McBorderCommand implements CommandExecutor {
     @Override
@@ -424,7 +412,7 @@ public class McBorderCommand implements CommandExecutor {
         int randomZ = randInt(centerZ + minBorderSize, centerZ + maxBorderSize);
         Bukkit.getRegionScheduler().execute(McBorder.getInstance(),world,randomX,randomZ, () -> {
             Location location=new Location(world, randomX + 0.5, McBorder.getInstance().getConfig().getDouble("rtp.falling_height",384), randomZ + 0.5);
-            RTPEvent.giveFallDamageImmunity(player);
+            RTPListener.giveFallDamageImmunity(player);
             if (isPaper()||isFolia()){
                 player.teleportAsync(location,PlayerTeleportEvent.TeleportCause.COMMAND);
             }else {

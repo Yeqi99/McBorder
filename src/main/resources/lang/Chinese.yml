@@ -26,7 +26,6 @@ help:
   - "&c/McBorder(mb) reload"
   - "&7|重载插件"
 
-
 insufficient-parameters: "&c参数不足"
 insufficient-permissions: "&c权限不足"
 world-does-not-exist: "&c世界不存在"
@@ -34,3 +33,5 @@ player-does-not-exist: "&c玩家不存在"
 illegal-parameter: "&c非法参数"
 warning-properties-updated: "&a边界警告属性已更新！"
 reload-successful: "&a重载成功！"
+out-border-title: "&c你走出了边界，可能会收到伤害"
+out-border-sub: "&c边界大小：&d%McBorder_Size%"
