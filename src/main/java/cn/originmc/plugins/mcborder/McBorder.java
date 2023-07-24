@@ -33,12 +33,14 @@ public final class McBorder extends JavaPlugin {
         LangData.getData();
         PlaceholderAPIHook.hook(getInstance());
         ListenerRegister.register(getInstance(),new RTPListener());
-        ListenerRegister.register(getInstance(),new BorderListener());
+        BorderListener.listener(20);
         ListenerRegister.register(getInstance(),new OutBorderListener());
+        if (PlaceholderAPIHook.isLoad()){
+            new BiomePlaceholder().register();
+            new BorderPlaceholder().register();
+        }
         CommandRegister.register(getInstance(),new McBorderCommand(),"McBorder");
         CompleterRegister.register(getInstance(),new McBorderCompleter(),"McBorder");
-        new BiomePlaceholder().register();
-        new BorderPlaceholder().register();
         new Sender(this).sendToLogger("");
         new Sender(this).sendToLogger("&b     McBorder  v2.4-Dependency  Successfully loaded");
         new Sender(this).sendToLogger("&d                    Made by Yeqi");

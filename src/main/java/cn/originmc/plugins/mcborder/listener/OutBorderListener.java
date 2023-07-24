@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 public class OutBorderListener implements Listener {
     @EventHandler
     public static void whenPlayerOutBorder(PlayerOutBorderEvent e){
-        Player player=e.getOrigin().getPlayer();
+        Player player=e.getPlayer();
         String title= PlaceholderAPIHook.getPlaceholder(player,(String) LangData.getYamlManager()
                 .get(McBorder.getLang(), "out-border-title", "&c你走出了边界，可能会收到伤害"));
         String sub= PlaceholderAPIHook.getPlaceholder(player,(String) LangData.getYamlManager()

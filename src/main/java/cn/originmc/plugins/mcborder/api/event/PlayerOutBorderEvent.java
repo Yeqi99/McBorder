@@ -1,15 +1,16 @@
 package cn.originmc.plugins.mcborder.api.event;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 
 public class PlayerOutBorderEvent extends Event {
-    private PlayerMoveEvent origin;
-    public PlayerOutBorderEvent(PlayerMoveEvent event) {
+    private Player player;
+    public PlayerOutBorderEvent(Player player) {
         super(true);
-        this.origin=event;
+        this.player=player;
     }
     private static final HandlerList handlers = new HandlerList();
 
@@ -22,7 +23,7 @@ public class PlayerOutBorderEvent extends Event {
         return handlers;
     }
 
-    public PlayerMoveEvent getOrigin() {
-        return origin;
+    public Player getPlayer() {
+        return player;
     }
 }
