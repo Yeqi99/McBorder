@@ -1,15 +1,12 @@
 package cn.originmc.plugins.mcborder.papi;
 
-import cn.originmc.plugins.mcborder.BiomeTranslation;
-import cn.originmc.plugins.mcborder.McBorder;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 
 public class BorderPlaceholder extends PlaceholderExpansion {
     @Override
     public String getIdentifier() {
-        return "McBorder"; // 您的插件标识符，用于调用自定义变量
+        return "BorderInfo"; // 您的插件标识符，用于调用自定义变量
     }
 
     @Override
@@ -26,9 +23,8 @@ public class BorderPlaceholder extends PlaceholderExpansion {
     @Override
     public String onPlaceholderRequest(Player player, String identifier) {
         if (player == null) {
-            return "";
+            return "1";
         }
-
         if (identifier.equalsIgnoreCase("BorderSize")) {
             return player.getWorld().getWorldBorder().getSize()+"";
         } else if (identifier.equalsIgnoreCase("BorderCenterX")) {
@@ -39,6 +35,6 @@ public class BorderPlaceholder extends PlaceholderExpansion {
             return player.getWorld().getWorldBorder().getDamageAmount()+"";
         }
 
-        return null;
+        return "2";
     }
 }

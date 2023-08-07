@@ -10,7 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class BorderListener {
-    @EventHandler
     public static void listener(long time){
             new BukkitRunnable() {
                 @Override

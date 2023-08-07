@@ -13,6 +13,7 @@ import cn.originmc.plugins.mcborder.util.register.CommandRegister;
 import cn.originmc.plugins.mcborder.util.register.CompleterRegister;
 import cn.originmc.plugins.mcborder.util.register.ListenerRegister;
 import cn.originmc.plugins.mcborder.util.text.Sender;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class McBorder extends JavaPlugin {
@@ -33,7 +34,7 @@ public final class McBorder extends JavaPlugin {
         LangData.getData();
         PlaceholderAPIHook.hook(getInstance());
         ListenerRegister.register(getInstance(),new RTPListener());
-        BorderListener.listener(20);
+        //BorderListener.listener(20);
         ListenerRegister.register(getInstance(),new OutBorderListener());
         if (PlaceholderAPIHook.isLoad()){
             new BiomePlaceholder().register();

@@ -71,6 +71,11 @@
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
+
+        <repository>
+            <id>originmc-repo</id>
+            <url>https://maven.originmc.cn/repository/maven-public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
