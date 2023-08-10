@@ -4,8 +4,6 @@ import cn.originmc.plugins.mcborder.command.McBorderCommand;
 import cn.originmc.plugins.mcborder.command.McBorderCompleter;
 import cn.originmc.plugins.mcborder.data.LangData;
 import cn.originmc.plugins.mcborder.hook.PlaceholderAPIHook;
-import cn.originmc.plugins.mcborder.listener.BorderListener;
-import cn.originmc.plugins.mcborder.listener.OutBorderListener;
 import cn.originmc.plugins.mcborder.listener.RTPListener;
 import cn.originmc.plugins.mcborder.papi.BiomePlaceholder;
 import cn.originmc.plugins.mcborder.papi.BorderPlaceholder;
@@ -34,8 +32,6 @@ public final class McBorder extends JavaPlugin {
         LangData.getData();
         PlaceholderAPIHook.hook(getInstance());
         ListenerRegister.register(getInstance(),new RTPListener());
-        //BorderListener.listener(20);
-        ListenerRegister.register(getInstance(),new OutBorderListener());
         if (PlaceholderAPIHook.isLoad()){
             new BiomePlaceholder().register();
             new BorderPlaceholder().register();
