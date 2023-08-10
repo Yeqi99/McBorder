@@ -11,7 +11,6 @@ import cn.originmc.plugins.mcborder.util.register.CommandRegister;
 import cn.originmc.plugins.mcborder.util.register.CompleterRegister;
 import cn.originmc.plugins.mcborder.util.register.ListenerRegister;
 import cn.originmc.plugins.mcborder.util.text.Sender;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class McBorder extends JavaPlugin {
