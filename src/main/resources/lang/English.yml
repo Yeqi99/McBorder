@@ -7,6 +7,8 @@ help:
   - "&7|Set the center point of the world border"
   - "&c/McBorder(mb) setplayer <player> <size> [time]"
   - "&7|Set the size of the border for the player's world and center it"
+  - "&c/McBorder(mb) setplayerworld <player> [size] [world] [time]"
+  - "&7|Set the border of the player's world, with more options"
   - "&c/McBorder(mb) reborder <world>"
   - "&7|Reset the border of the specified world"
   - "&c/McBorder(mb) replayer <player>"
