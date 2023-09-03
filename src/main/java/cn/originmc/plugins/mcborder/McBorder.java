@@ -11,6 +11,7 @@ import cn.originmc.plugins.mcborder.util.register.CommandRegister;
 import cn.originmc.plugins.mcborder.util.register.CompleterRegister;
 import cn.originmc.plugins.mcborder.util.register.ListenerRegister;
 import cn.originmc.plugins.mcborder.util.text.Sender;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class McBorder extends JavaPlugin {
@@ -24,6 +25,8 @@ public final class McBorder extends JavaPlugin {
     }
     @Override
     public void onEnable() {
+        int pluginId = 19714; // 替换为您的插件ID
+        Metrics metrics = new Metrics(this, pluginId);
         instance=this;
         saveDefaultConfig();
         saveResource("lang/Chinese.yml",true);
@@ -38,7 +41,7 @@ public final class McBorder extends JavaPlugin {
         CommandRegister.register(getInstance(),new McBorderCommand(),"McBorder");
         CompleterRegister.register(getInstance(),new McBorderCompleter(),"McBorder");
         new Sender(this).sendToLogger("");
-        new Sender(this).sendToLogger("&b     McBorder  v2.4-Dependency  Successfully loaded");
+        new Sender(this).sendToLogger("&b     McBorder  v2.6-Dependency  Successfully loaded");
         new Sender(this).sendToLogger("&d                    Made by Yeqi");
         new Sender(this).sendToLogger("");
     }
@@ -46,7 +49,7 @@ public final class McBorder extends JavaPlugin {
     @Override
     public void onDisable() {
         new Sender(this).sendToLogger("");
-        new Sender(this).sendToLogger("&b     McBorder  v2.4-Dependency  Successfully unloaded");
+        new Sender(this).sendToLogger("&b     McBorder  v2.6-Dependency  Successfully unloaded");
         new Sender(this).sendToLogger("&d                    Made by Yeqi");
         new Sender(this).sendToLogger("");
     }

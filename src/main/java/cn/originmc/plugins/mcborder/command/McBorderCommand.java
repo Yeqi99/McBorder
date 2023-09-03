@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class McBorderCommand implements CommandExecutor {
     @Override
@@ -117,6 +119,52 @@ public class McBorderCommand implements CommandExecutor {
                 world.getWorldBorder().setSize(size,time);
             }
             return true;
+        }else if (args[0].equalsIgnoreCase("setplayerworld")) {
+            if (!sender.hasPermission("McBorder.setplayerworld")) {
+                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-permissions","&c权限不足"));
+                return true;
+            }
+            if (args.length < 2 || args.length > 5) {
+                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-parameters","&c参数不足"));
+                return true;
+            }
+            Player targetPlayer = Bukkit.getPlayer(args[1]);
+            if (targetPlayer == null) {
+                sender.sendMessage("Player not found.");
+                return true;
+            }
+
+            World world = targetPlayer.getWorld();
+            double size = 1.0;
+            int time = 0;
+
+            if (args.length >= 3) {
+                try {
+                    size = Double.parseDouble(args[2]);
+                } catch (NumberFormatException e) {
+                    sender.sendMessage("Invalid size specified. Using default size 1.0.");
+                }
+            }
+
+            if (args.length >= 4) {
+                World specifiedWorld = Bukkit.getWorld(args[3]);
+                if (specifiedWorld != null) {
+                    world = specifiedWorld;
+                } else {
+                    sender.sendMessage("Invalid world specified. Using player's current world.");
+                }
+            }
+
+            if (args.length == 5) {
+                try {
+                    time = Integer.parseInt(args[4]);
+                } catch (NumberFormatException e) {
+                    sender.sendMessage("Invalid time specified. Using default time 0.");
+                }
+            }
+
+            world.getWorldBorder().setCenter(targetPlayer.getLocation());
+            world.getWorldBorder().setSize(size, time);
         }else if (cu.is(0,"reborder")){
             if (!cu.isAdmin()){
                 if (!cu.hasPerm("McBorder.reborder")){
@@ -158,30 +206,7 @@ public class McBorderCommand implements CommandExecutor {
                 world.getWorldBorder().reset();
                 return true;
             }
-        } else if (cu.is(0,"replayer")){
-            if (!cu.isAdmin()){
-                if (!cu.hasPerm("McBorder.replayer")){
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-permissions","&c权限不足"));
-                    return true;
-                }
-            }
-            if (cu.getParameterAmount()<2){
-                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-parameters","&c参数不足"));
-            } else {
-                Player player=Bukkit.getPlayer(cu.getParameter(1));
-                if (player==null){
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"player-does-not-exist","&c玩家不存在"));
-                    return true;
-                }
-                World world = player.getWorld();
-                if (world == null) {
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"world-does-not-exist","&c世界不存在"));
-                    return true;
-                }
-                world.getWorldBorder().reset();
-                return true;
-            }
-        }else if (cu.is(0, "getcenter")) {
+        } else if (cu.is(0, "getcenter")) {
             if (!cu.isAdmin()) {
                 if (!cu.hasPerm("McBorder.getcenter")) {
                     s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
@@ -361,15 +386,12 @@ public class McBorderCommand implements CommandExecutor {
         return true;
     }
     public static boolean isNumber(String inStrNumber) {
-        int i = inStrNumber.length();
-        do {
-            --i;
-            if (i < 0) {
-                return true;
-            }
-        } while(Character.isDigit(inStrNumber.charAt(i)));
+        // 正则表达式模式匹配数字，包括可选的负号和小数点
+        String pattern = "-?\\d+(\\.\\d+)?";
+        Pattern regex = Pattern.compile(pattern);
+        Matcher matcher = regex.matcher(inStrNumber);
 
-        return false;
+        return matcher.matches();
     }
 
     public static void setWarning(World world, double warningDistance, int warningTime, double bufferDistance, double damageAmount) {

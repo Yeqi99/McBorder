@@ -26,6 +26,7 @@ public class McBorderCompleter implements TabCompleter {
             if (sender.hasPermission("McBorder.setborder")) completions.add("setborder");
             if (sender.hasPermission("McBorder.setcenter")) completions.add("setcenter");
             if (sender.hasPermission("McBorder.setplayer")) completions.add("setplayer");
+            if (sender.hasPermission("McBorder.setplayerworld")) completions.add("setplayerworld");
             if (sender.hasPermission("McBorder.reborder")) completions.add("reborder");
             if (sender.hasPermission("McBorder.replayer")) completions.add("replayer");
             if (sender.hasPermission("McBorder.setwarning")) completions.add("setwarning");
@@ -65,6 +66,18 @@ public class McBorderCompleter implements TabCompleter {
                     } else if (args.length == 3) {
                         completions.add("[size]");
                     } else if (args.length == 4) {
+                        completions.add("[time]");
+                    }
+                }
+            }else if (subCommand.equalsIgnoreCase("setplayerworld")) {
+                if (sender.hasPermission("McBorder.setplayerworld")) {
+                    if (args.length == 2) {
+                        completions.addAll(getPlayerNames());
+                    } else if (args.length == 3) {
+                        completions.add("[size]");
+                    } else if(args.length == 4){
+                        completions.add("[world]");
+                    }else if (args.length == 5) {
                         completions.add("[time]");
                     }
                 }
