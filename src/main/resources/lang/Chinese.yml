@@ -27,6 +27,8 @@ help:
   - "&7|让指定玩家在指定世界的边境里随机传送"
   - "&c/McBorder(mb) reload"
   - "&7|重载插件"
+  - "&c/McBorder(mb) upsetting"
+  - "&7|通过配置文件更新边界"
 
 insufficient-parameters: "&c参数不足"
 insufficient-permissions: "&c权限不足"

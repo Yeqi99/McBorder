@@ -1,8 +1,9 @@
-x: 0
-z: 0
-size: 100
-changeTime: 0
-warningDistance: 5
-warningTime: 5
-bufferDistance: 5
-damageAmount: 1
+# This file is used to configure the world border.
+x: 0 # The x coordinate of the center of the world border
+z: 0 # The z coordinate of the center of the world border
+size: 100 # The size of the world border
+changeTime: 0 # The time when the world border changes
+warningDistance: 5 # The distance from the border to the player when the player is warned
+warningTime: 5 # The time when the player is warned
+bufferDistance: 5 # The distance from the border to the player when the player is damaged
+damageAmount: 1  # Out of the border damage amount

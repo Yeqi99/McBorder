@@ -36,6 +36,7 @@ public class McBorderCompleter implements TabCompleter {
             if (sender.hasPermission("McBorder.getsize")) completions.add("getsize");
             if (sender.hasPermission("McBorder.rtp")) completions.add("rtp");
             if (sender.hasPermission("McBorder.reload")) completions.add("reload");
+            if (sender.hasPermission("McBorder.upsetting")) completions.add("upsetting");
         } else if (args.length >= 2) {
             // 同样，检查每个子命令的权限，只有玩家拥有对应的权限才能看到相关补全
             String subCommand = args[0];
@@ -69,15 +70,15 @@ public class McBorderCompleter implements TabCompleter {
                         completions.add("[time]");
                     }
                 }
-            }else if (subCommand.equalsIgnoreCase("setplayerworld")) {
+            } else if (subCommand.equalsIgnoreCase("setplayerworld")) {
                 if (sender.hasPermission("McBorder.setplayerworld")) {
                     if (args.length == 2) {
                         completions.addAll(getPlayerNames());
                     } else if (args.length == 3) {
                         completions.add("[size]");
-                    } else if(args.length == 4){
+                    } else if (args.length == 4) {
                         completions.add("[world]");
-                    }else if (args.length == 5) {
+                    } else if (args.length == 5) {
                         completions.add("[time]");
                     }
                 }
@@ -140,6 +141,7 @@ public class McBorderCompleter implements TabCompleter {
 
         return completions;
     }
+
     private List<String> getWorldNames() {
         List<String> worldNames = new ArrayList<>();
         for (World world : Bukkit.getWorlds()) {
@@ -155,8 +157,9 @@ public class McBorderCompleter implements TabCompleter {
         }
         return playerNames;
     }
-    private List<String> getBiomes(){
-        List<String> biomeNames=new ArrayList<>();
+
+    private List<String> getBiomes() {
+        List<String> biomeNames = new ArrayList<>();
         for (Biome value : Biome.values()) {
             biomeNames.add(value.name());
         }

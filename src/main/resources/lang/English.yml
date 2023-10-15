@@ -27,6 +27,8 @@ help:
   - "&7|Randomly teleport the specified player within the border of the specified world"
   - "&c/McBorder(mb) reload"
   - "&7|Reload the plugin"
+  - "&c/McBorder(mb) upsetting"
+  - "&7|Update the border through the configuration file"
 
 insufficient-parameters: "&cInsufficient parameters"
 insufficient-permissions: "&cInsufficient permissions"

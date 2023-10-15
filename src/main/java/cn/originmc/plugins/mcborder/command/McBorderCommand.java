@@ -3,6 +3,8 @@ package cn.originmc.plugins.mcborder.command;
 import cn.originmc.plugins.mcborder.McBorder;
 import cn.originmc.plugins.mcborder.data.BorderData;
 import cn.originmc.plugins.mcborder.data.LangData;
+import cn.originmc.plugins.mcborder.data.manager.BorderDataManager;
+import cn.originmc.plugins.mcborder.data.object.BorderSetting;
 import cn.originmc.plugins.mcborder.listener.RTPListener;
 import cn.originmc.plugins.mcborder.util.command.CommandUtil;
 import cn.originmc.plugins.mcborder.util.text.Sender;
@@ -20,113 +22,113 @@ import java.util.regex.Pattern;
 public class McBorderCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        CommandUtil cu=new CommandUtil(sender,command,label,args);
-        Sender s=new Sender(McBorder.getInstance());
-        if (cu.getParameterAmount()==0){
-            if (!cu.isAdmin()){
-                if (!cu.hasPerm("McBorder.normal")){
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-permissions","&c权限不足"));
+        CommandUtil cu = new CommandUtil(sender, command, label, args);
+        Sender s = new Sender(McBorder.getInstance());
+        if (cu.getParameterAmount() == 0) {
+            if (!cu.isAdmin()) {
+                if (!cu.hasPerm("McBorder.normal")) {
+                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
                     return true;
                 }
             }
-            s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-parameters","&c参数不足"));
+            s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-parameters", "&c参数不足"));
             return true;
         }
-        if (cu.is(0,"help")){
-            if (!cu.isAdmin()){
-                if (!cu.hasPerm("McBorder.help")){
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-permissions","&c权限不足"));
+        if (cu.is(0, "help")) {
+            if (!cu.isAdmin()) {
+                if (!cu.hasPerm("McBorder.help")) {
+                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
                     return true;
                 }
             }
-            s.sendToSender(sender, (List<String>) LangData.getYamlManager().get(McBorder.getLang(),"help"));
+            s.sendToSender(sender, (List<String>) LangData.getYamlManager().get(McBorder.getLang(), "help"));
             return true;
-        }else if (cu.is(0,"setborder")){
-            if (!cu.isAdmin()){
-                if (!cu.hasPerm("McBorder.setborder")){
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-permissions","&c权限不足"));
+        } else if (cu.is(0, "setborder")) {
+            if (!cu.isAdmin()) {
+                if (!cu.hasPerm("McBorder.setborder")) {
+                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
                     return true;
                 }
             }
-            if (cu.getParameterAmount()<3){
-                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-parameters","&c参数不足"));
-            }else {
+            if (cu.getParameterAmount() < 3) {
+                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-parameters", "&c参数不足"));
+            } else {
                 World world = Bukkit.getWorld(cu.getParameter(1));
                 if (world == null) {
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"world-does-not-exist","&c世界不存在"));
+                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "world-does-not-exist", "&c世界不存在"));
                     return true;
                 }
-                if (!isNumber(cu.getParameter(2))){
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"illegal-parameter","&c非法参数"));
+                if (!isNumber(cu.getParameter(2))) {
+                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "illegal-parameter", "&c非法参数"));
                     return true;
                 }
-                long sideLen= Long.parseLong(cu.getParameter(2));
-                int time=0;
-                if (cu.getParameterAmount()==4){
-                    time= Integer.parseInt(cu.getParameter(3));
+                long sideLen = Long.parseLong(cu.getParameter(2));
+                int time = 0;
+                if (cu.getParameterAmount() == 4) {
+                    time = Integer.parseInt(cu.getParameter(3));
                 }
-                world.getWorldBorder().setSize(sideLen,time);
+                world.getWorldBorder().setSize(sideLen, time);
             }
             return true;
-        }else if (cu.is(0,"setcenter")){
-            if (!cu.isAdmin()){
-                if (!cu.hasPerm("McBorder.setcenter")){
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-permissions","&c权限不足"));
+        } else if (cu.is(0, "setcenter")) {
+            if (!cu.isAdmin()) {
+                if (!cu.hasPerm("McBorder.setcenter")) {
+                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
                     return true;
                 }
             }
-            if (cu.getParameterAmount()<4){
-                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-parameters","&c参数不足"));
-            }else {
+            if (cu.getParameterAmount() < 4) {
+                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-parameters", "&c参数不足"));
+            } else {
                 World world = Bukkit.getWorld(cu.getParameter(1));
                 if (world == null) {
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"world-does-not-exist","&c世界不存在"));
+                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "world-does-not-exist", "&c世界不存在"));
                     return true;
                 }
-                if (!isNumber(cu.getParameter(2))){
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"illegal-parameter","&c非法参数"));
+                if (!isNumber(cu.getParameter(2))) {
+                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "illegal-parameter", "&c非法参数"));
                     return true;
                 }
-                if (!isNumber(cu.getParameter(3))){
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"illegal-parameter","&c非法参数"));
+                if (!isNumber(cu.getParameter(3))) {
+                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "illegal-parameter", "&c非法参数"));
                     return true;
                 }
-                long x= Long.parseLong(cu.getParameter(2));
-                long z= Long.parseLong(cu.getParameter(3));
-                world.getWorldBorder().setCenter(x,z);
+                long x = Long.parseLong(cu.getParameter(2));
+                long z = Long.parseLong(cu.getParameter(3));
+                world.getWorldBorder().setCenter(x, z);
             }
             return true;
-        }else if (cu.is(0,"setplayer")){
-            if (!cu.isAdmin()){
-                if (!cu.hasPerm("McBorder.setplayer")){
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-permissions","&c权限不足"));
+        } else if (cu.is(0, "setplayer")) {
+            if (!cu.isAdmin()) {
+                if (!cu.hasPerm("McBorder.setplayer")) {
+                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
                     return true;
                 }
             }
-            if (cu.getParameterAmount()<2){
-                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-parameters","&c参数不足"));
-            }else {
+            if (cu.getParameterAmount() < 2) {
+                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-parameters", "&c参数不足"));
+            } else {
                 Player p = Bukkit.getPlayer(cu.getParameter(1));
-                long size=1;
-                int time=0;
-                if (isNumber(cu.getParameter(2))){
-                    size= Long.parseLong(cu.getParameter(2));
+                long size = 1;
+                int time = 0;
+                if (isNumber(cu.getParameter(2))) {
+                    size = Long.parseLong(cu.getParameter(2));
                 }
-                if (cu.getParameterAmount()==4){
-                    time= Integer.parseInt(cu.getParameter(3));
+                if (cu.getParameterAmount() == 4) {
+                    time = Integer.parseInt(cu.getParameter(3));
                 }
                 World world = p.getWorld();
                 world.getWorldBorder().setCenter(p.getLocation());
-                world.getWorldBorder().setSize(size,time);
+                world.getWorldBorder().setSize(size, time);
             }
             return true;
-        }else if (args[0].equalsIgnoreCase("setplayerworld")) {
+        } else if (args[0].equalsIgnoreCase("setplayerworld")) {
             if (!sender.hasPermission("McBorder.setplayerworld")) {
-                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-permissions","&c权限不足"));
+                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
                 return true;
             }
             if (args.length < 2 || args.length > 5) {
-                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-parameters","&c参数不足"));
+                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-parameters", "&c参数不足"));
                 return true;
             }
             Player targetPlayer = Bukkit.getPlayer(args[1]);
@@ -166,42 +168,42 @@ public class McBorderCommand implements CommandExecutor {
 
             world.getWorldBorder().setCenter(targetPlayer.getLocation());
             world.getWorldBorder().setSize(size, time);
-        }else if (cu.is(0,"reborder")){
-            if (!cu.isAdmin()){
-                if (!cu.hasPerm("McBorder.reborder")){
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-permissions","&c权限不足"));
+        } else if (cu.is(0, "reborder")) {
+            if (!cu.isAdmin()) {
+                if (!cu.hasPerm("McBorder.reborder")) {
+                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
                     return true;
                 }
             }
-            if (cu.getParameterAmount()<2){
-                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-parameters","&c参数不足"));
+            if (cu.getParameterAmount() < 2) {
+                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-parameters", "&c参数不足"));
             } else {
                 World world = Bukkit.getWorld(cu.getParameter(1));
                 if (world == null) {
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"world-does-not-exist","&c世界不存在"));
+                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "world-does-not-exist", "&c世界不存在"));
                     return true;
                 }
                 world.getWorldBorder().reset();
                 return true;
             }
-        } else if (cu.is(0,"replayer")){
-            if (!cu.isAdmin()){
-                if (!cu.hasPerm("McBorder.replayer")){
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-permissions","&c权限不足"));
+        } else if (cu.is(0, "replayer")) {
+            if (!cu.isAdmin()) {
+                if (!cu.hasPerm("McBorder.replayer")) {
+                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
                     return true;
                 }
             }
-            if (cu.getParameterAmount()<2){
-                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"insufficient-parameters","&c参数不足"));
+            if (cu.getParameterAmount() < 2) {
+                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-parameters", "&c参数不足"));
             } else {
-                Player player=Bukkit.getPlayer(cu.getParameter(1));
-                if (player==null){
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"player-does-not-exist","&c玩家不存在"));
+                Player player = Bukkit.getPlayer(cu.getParameter(1));
+                if (player == null) {
+                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "player-does-not-exist", "&c玩家不存在"));
                     return true;
                 }
                 World world = player.getWorld();
                 if (world == null) {
-                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(),"world-does-not-exist","&c世界不存在"));
+                    s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "world-does-not-exist", "&c世界不存在"));
                     return true;
                 }
                 world.getWorldBorder().reset();
@@ -245,7 +247,7 @@ public class McBorderCommand implements CommandExecutor {
                 s.sendToSender(sender, "世界边界尺寸: " + size);
                 return true;
             }
-        }else if(cu.is(0,"reload")){
+        } else if (cu.is(0, "reload")) {
             if (!cu.isAdmin()) {
                 if (!cu.hasPerm("McBorder.reload")) {
                     s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
@@ -257,7 +259,7 @@ public class McBorderCommand implements CommandExecutor {
             BorderData.getData();
             s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "reload-successful", "&a重载成功！"));
             return true;
-        }else if (cu.is(0, "setwarning")) {
+        } else if (cu.is(0, "setwarning")) {
             if (!cu.isAdmin()) {
                 if (!cu.hasPerm("McBorder.setwarning")) {
                     s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
@@ -298,7 +300,7 @@ public class McBorderCommand implements CommandExecutor {
                 s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "warning-properties-updated", "&a边界警告属性已更新"));
             }
             return true;
-        }else  if (cu.is(0, "increase")) {
+        } else if (cu.is(0, "increase")) {
             if (!cu.isAdmin() && !cu.hasPerm("McBorder.increase")) {
                 s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
                 return true;
@@ -322,15 +324,15 @@ public class McBorderCommand implements CommandExecutor {
                 s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "world-does-not-exist", "&c世界不存在"));
                 return true;
             }
-            int time=0;
-            if (cu.getParameterAmount()==4){
-                time= Integer.parseInt(cu.getParameter(3));
+            int time = 0;
+            if (cu.getParameterAmount() == 4) {
+                time = Integer.parseInt(cu.getParameter(3));
             }
             WorldBorder worldBorder = world.getWorldBorder();
             double currentSize = worldBorder.getSize();
             double newSize = currentSize + increaseValue;
 
-            worldBorder.setSize(newSize,time);
+            worldBorder.setSize(newSize, time);
             s.sendToSender(sender, "世界边界尺寸已增加至 " + newSize);
             return true;
         } else if (cu.is(0, "reduce")) {
@@ -357,36 +359,47 @@ public class McBorderCommand implements CommandExecutor {
                 s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "world-does-not-exist", "&c世界不存在"));
                 return true;
             }
-            int time=0;
-            if (cu.getParameterAmount()==4){
-                time= Integer.parseInt(cu.getParameter(3));
+            int time = 0;
+            if (cu.getParameterAmount() == 4) {
+                time = Integer.parseInt(cu.getParameter(3));
             }
             WorldBorder worldBorder = world.getWorldBorder();
             double currentSize = worldBorder.getSize();
             double newSize = currentSize - reduceValue;
 
-            worldBorder.setSize(newSize,time);
+            worldBorder.setSize(newSize, time);
             s.sendToSender(sender, "世界边界尺寸已减少至 " + newSize);
             return true;
-        } else if (cu.is(0, "rtp")){
+        } else if (cu.is(0, "rtp")) {
             if (!cu.isAdmin() && !cu.hasPerm("McBorder.rtp")) {
                 s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
                 return true;
             }
-            String playerName=cu.getParameter(1);
-            if (playerName==null){
+            String playerName = cu.getParameter(1);
+            if (playerName == null) {
                 return true;
             }
-            String worldName=cu.getParameter(2);
-            if (worldName==null){
+            String worldName = cu.getParameter(2);
+            if (worldName == null) {
                 return true;
             }
-            rtp(playerName,worldName);
+            rtp(playerName, worldName);
+            return true;
+        } else if (cu.is(0, "upsetting")) {
+            for (BorderSetting borderSetting : BorderDataManager.getBorderSetting()) {
+                boolean flag = borderSetting.upWorld();
+                if (flag) {
+                    new Sender(McBorder.getInstance()).sendToSender(cu.getSender(), "&aBorder &b" + borderSetting.getWorld() + " &aup successfully");
+                } else {
+                    new Sender(McBorder.getInstance()).sendToSender(cu.getSender(), "&cBorder &b" + borderSetting.getWorld() + " &cnot found");
+                }
+            }
             return true;
         }
 
         return true;
     }
+
     public static boolean isNumber(String inStrNumber) {
         // 正则表达式模式匹配数字，包括可选的负号和小数点
         String pattern = "-?\\d+(\\.\\d+)?";
@@ -407,6 +420,7 @@ public class McBorderCommand implements CommandExecutor {
         worldBorder.setDamageBuffer(bufferDistance);
         worldBorder.setDamageAmount(damageAmount);
     }
+
     public boolean rtp(String playerName, String worldName) {
         Player player = Bukkit.getPlayer(playerName);
 
@@ -434,13 +448,13 @@ public class McBorderCommand implements CommandExecutor {
         // 在以中心点为基准的世界边界范围内随机生成坐标
         int randomX = randInt(centerX + minBorderSize, centerX + maxBorderSize);
         int randomZ = randInt(centerZ + minBorderSize, centerZ + maxBorderSize);
-        Bukkit.getRegionScheduler().execute(McBorder.getInstance(),world,randomX,randomZ, () -> {
-            Location location=new Location(world, randomX + 0.5, McBorder.getInstance().getConfig().getDouble("rtp.falling_height",384), randomZ + 0.5);
+        Bukkit.getRegionScheduler().execute(McBorder.getInstance(), world, randomX, randomZ, () -> {
+            Location location = new Location(world, randomX + 0.5, McBorder.getInstance().getConfig().getDouble("rtp.falling_height", 384), randomZ + 0.5);
             RTPListener.giveFallDamageImmunity(player);
-            if (isPaper()||isFolia()){
-                player.teleportAsync(location,PlayerTeleportEvent.TeleportCause.COMMAND);
-            }else {
-                player.teleport(location,PlayerTeleportEvent.TeleportCause.COMMAND);
+            if (isPaper() || isFolia()) {
+                player.teleportAsync(location, PlayerTeleportEvent.TeleportCause.COMMAND);
+            } else {
+                player.teleport(location, PlayerTeleportEvent.TeleportCause.COMMAND);
             }
         });
         return true;
@@ -450,6 +464,7 @@ public class McBorderCommand implements CommandExecutor {
     private int randInt(int min, int max) {
         return min + (int) (Math.random() * ((max - min) + 1));
     }
+
     public static String getVersion() {
         Server server = Bukkit.getServer();
         String version = server.getVersion().toLowerCase();
@@ -457,10 +472,12 @@ public class McBorderCommand implements CommandExecutor {
         // 判断是否为 Paper 环境
         return version;
     }
-    public static boolean isPaper(){
+
+    public static boolean isPaper() {
         return getVersion().contains("paper");
     }
-    public static boolean isFolia(){
+
+    public static boolean isFolia() {
         return getVersion().contains("folia");
     }
 }
