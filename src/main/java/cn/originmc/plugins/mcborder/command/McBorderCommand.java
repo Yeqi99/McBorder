@@ -1,6 +1,7 @@
 package cn.originmc.plugins.mcborder.command;
 
 import cn.originmc.plugins.mcborder.McBorder;
+import cn.originmc.plugins.mcborder.data.BorderData;
 import cn.originmc.plugins.mcborder.data.LangData;
 import cn.originmc.plugins.mcborder.listener.RTPListener;
 import cn.originmc.plugins.mcborder.util.command.CommandUtil;
@@ -253,6 +254,7 @@ public class McBorderCommand implements CommandExecutor {
             }
             McBorder.getInstance().reloadConfig();
             LangData.getData();
+            BorderData.getData();
             s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "reload-successful", "&a重载成功！"));
             return true;
         }else if (cu.is(0, "setwarning")) {

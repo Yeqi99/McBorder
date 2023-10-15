@@ -1,5 +1,8 @@
+# Language used in the game
 lang: Chinese
+# Generate default file when the plugin is enabled
+default_file: true
 rtp:
   # ms
-  fall_immunity_time: 10000
-  falling_height: 384
+  fall_immunity_time: 10000 # when rtp, the player will be immune to damage for a period of time
+  falling_height: 384 # when rtp, the player will be teleported to a random location in the range of the border, and the height will be falling_height
