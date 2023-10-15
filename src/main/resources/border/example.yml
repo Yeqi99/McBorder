@@ -1,3 +1,4 @@
+# File name is the name of the world
 # This file is used to configure the world border.
 x: 0 # The x coordinate of the center of the world border
 z: 0 # The z coordinate of the center of the world border

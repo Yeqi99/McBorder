@@ -36,7 +36,7 @@ public final class McBorder extends JavaPlugin {
         if (getConfig().getBoolean("default_file", true)) {
             saveResource("lang/Chinese.yml", true);
             saveResource("lang/English.yml", true);
-            saveResource("border/world.yml", false);
+            saveResource("border/example.yml", false);
         }
         LangData.getData();
         BorderData.getData();
@@ -52,12 +52,14 @@ public final class McBorder extends JavaPlugin {
         new Sender(this).sendToLogger("&b     McBorder  v2.7-Dependency  Successfully loaded");
         new Sender(this).sendToLogger("&d                    Made by Yeqi");
         new Sender(this).sendToLogger("");
-        for (BorderSetting borderSetting : BorderDataManager.getBorderSetting()) {
-            boolean flag = borderSetting.upWorld();
-            if (flag) {
-                new Sender(this).sendToLogger("&aBorder &b" + borderSetting.getWorld() + " &aup successfully");
-            } else {
-                new Sender(this).sendToLogger("&cBorder &b" + borderSetting.getWorld() + " &cnot found");
+        if (getConfig().getBoolean("on_enable_setting_update", false)) {
+            for (BorderSetting borderSetting : BorderDataManager.getBorderSetting()) {
+                boolean flag = borderSetting.upWorld();
+                if (flag) {
+                    new Sender(this).sendToLogger("&aBorder &b" + borderSetting.getWorld() + " &aup successfully");
+                } else {
+                    new Sender(this).sendToLogger("&cBorder &b" + borderSetting.getWorld() + " &cnot found");
+                }
             }
         }
 
