@@ -13,7 +13,7 @@ public class BorderSetting {
     private double size;
     private String world;
     private double warningDistance;
-    private double warningTime;
+    private long warningTime;
     private double bufferDistance;
     private double damageAmount;
     private long changeTime;
@@ -24,10 +24,10 @@ public class BorderSetting {
         this.size = (double) yamlManager.get(id, "size");
         this.world = id;
         this.warningDistance = (double) yamlManager.get(id, "warningDistance");
-        this.warningTime = (double) yamlManager.get(id, "warningTime");
+        this.warningTime = (int) yamlManager.get(id, "warningTime");
         this.bufferDistance = (double) yamlManager.get(id, "bufferDistance");
         this.damageAmount = (double) yamlManager.get(id, "damageAmount");
-        this.changeTime = (long) yamlManager.get(id, "changeTime");
+        this.changeTime = (int) yamlManager.get(id, "changeTime");
     }
 
     public boolean upWorld() {
@@ -85,13 +85,7 @@ public class BorderSetting {
         this.warningDistance = warningDistance;
     }
 
-    public double getWarningTime() {
-        return warningTime;
-    }
 
-    public void setWarningTime(double warningTime) {
-        this.warningTime = warningTime;
-    }
 
     public double getBufferDistance() {
         return bufferDistance;

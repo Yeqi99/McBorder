@@ -1,10 +1,10 @@
 # File name is the name of the world
 # This file is used to configure the world border.
-x: 0 # The x coordinate of the center of the world border
-z: 0 # The z coordinate of the center of the world border
-size: 100 # The size of the world border
+x: 0.0 # The x coordinate of the center of the world border
+z: 0.0 # The z coordinate of the center of the world border
+size: 100.0 # The size of the world border
 changeTime: 0 # The time when the world border changes
-warningDistance: 5 # The distance from the border to the player when the player is warned
+warningDistance: 5.0 # The distance from the border to the player when the player is warned
 warningTime: 5 # The time when the player is warned
-bufferDistance: 5 # The distance from the border to the player when the player is damaged
-damageAmount: 1  # Out of the border damage amount
+bufferDistance: 5.0 # The distance from the border to the player when the player is damaged
+damageAmount: 1.0  # Out of the border damage amount
