@@ -8,10 +8,12 @@ import cn.originmc.plugins.mcborder.data.manager.RegionDataManager;
 import cn.originmc.plugins.mcborder.region.Node;
 import cn.originmc.plugins.mcborder.region.Region;
 import cn.originmc.plugins.mcborder.util.text.Sender;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -28,7 +30,7 @@ public class RegionMoveListener implements Listener {
     public static Map<String,Region> editRegion=new ConcurrentHashMap<>();
 
     @EventHandler
-    public void onPlayerChat(PlayerChatEvent e){
+    public void onPlayerChat(AsyncPlayerChatEvent e){
         if (!editors.contains(e.getPlayer().getName())){
             return;
         }
@@ -52,39 +54,44 @@ public class RegionMoveListener implements Listener {
                             .replace("!x",node.getX()+"")
                             .replace("!z",node.getZ()+""));
 
-            return;
         }else if(e.getMessage().toLowerCase().contains("save")){
             region.saveToFile(RegionData.getYamlManager());
-            return;
         }else if(e.getMessage().toLowerCase().contains("clear")){
             editRegion.remove(player.getName());
-            return;
         }else if (e.getMessage().toLowerCase().contains("exit")){
             editors.remove(player.getName());
-            return;
+        }else if(e.getMessage().toLowerCase().contains("region")){
+            String[] args=e.getMessage().split(" ");
+            Region r= RegionDataManager.getRegion(args[1]);
+            if (r==null){
+                region.setId("editRegion");
+                region.setDisplay("editRegion");
+                region.setWorld("world");
+                region.setWeight(1);
+            }
+            region=r;
+            editRegion.put(e.getPlayer().getName(),region);
         }else if(e.getMessage().toLowerCase().contains("display")){
             String[] args=e.getMessage().split(" ");
             region.setDisplay(args[1]);
-            return;
         }else if(e.getMessage().toLowerCase().contains("weight")){
             String[] args=e.getMessage().split(" ");
             region.setWeight(Integer.parseInt(args[1]));
-            return;
         }else if(e.getMessage().toLowerCase().contains("id")){
             String[] args=e.getMessage().split(" ");
             region.setId(args[1]);
-            return;
         }else if(e.getMessage().toLowerCase().contains("world")){
             String[] args=e.getMessage().split(" ");
             region.setWorld(args[1]);
-            return;
         }else if(e.getMessage().toLowerCase().contains("tp")){
             String[] args=e.getMessage().split(" ");
             if (args.length<2){
+                e.setCancelled(true);
                 return;
             }
             int index= Integer.parseInt(args[1]);
             if (index<0 || index>=region.nodes.size()){
+                e.setCancelled(true);
                 return;
             }
             Node node= region.nodes.get(index);
@@ -95,7 +102,6 @@ public class RegionMoveListener implements Listener {
             } else {
                 player.teleport(location, PlayerTeleportEvent.TeleportCause.COMMAND);
             }
-            return;
         }else if (e.getMessage().toLowerCase().contains("look")){
             sender.sendToPlayer(e.getPlayer(),region.getId()+":"+region.getDisplay());
             sender.sendToPlayer(e.getPlayer(),"world:"+region.getWorld());
@@ -120,21 +126,26 @@ public class RegionMoveListener implements Listener {
                                 .replace("!name",entry.getKey())
                                 .replace("!value",entry.getValue()));
             }
-
-            for(int i = 0 ; i<region.nodes.size();i++){
-                Node node=region.nodes.get(i);
-                sender.sendToPlayer(e.getPlayer(),
-                        LangDataManager
-                                .getText("edit-success-add",
-                                        "node.!index:(!x,!z)")
-                                .replace("!index",i+"")
-                                .replace("!x",node.getX()+"")
-                                .replace("!z",node.getZ()+""));
+        }else if(e.getMessage().toLowerCase().contains("insert")){
+            String[] args=e.getMessage().split(" ");
+            int index= Integer.parseInt(args[1]);
+            if (index<0 || index>region.nodes.size()){
+                e.setCancelled(true);
+                return;
             }
-            return;
+            Node node=new Node(player.getX(),player.getZ());
+            region.nodes.add(index,node);
+        }else if(e.getMessage().toLowerCase().contains("flag")){
+            String[] args=e.getMessage().split(" ");
+            String key=args[1];
+            String value=args[2];
+            region.getFlags().put(key,value);
         }else {
-            sender.sendToPlayer(player,"add/save/exit/tp <index>/look");
+            sender.sendToPlayer(player,"usage:add/save/exit/tp <index>/look/region <id>");
+            sender.sendToPlayer(player,"usage:id <id>/display <display>/weight <weight>/world <world>");
+            sender.sendToPlayer(player,"usage:insert <index>/flag <key> <value>");
         }
+        e.setCancelled(true);
     }
 
 

@@ -45,10 +45,11 @@ public class Region {
             Node node = new Node(x, z);
             this.nodes.add(node);
         }
-        for (String s : yamlManager.getKeyList(id, "flags", true)) {
-            flags.put(s, yamlManager.get(id, "flags."+s).toString());
+        if (yamlManager.has(id,"flags")){
+            for (String s : yamlManager.getKeyList(id, "flags", true)) {
+                flags.put(s, yamlManager.get(id, "flags."+s).toString());
+            }
         }
-
     }
     public void saveToFile(YamlManager yamlManager){
         yamlManager.create(id);
