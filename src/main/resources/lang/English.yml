@@ -29,6 +29,8 @@ help:
   - "&7|Reload the plugin"
   - "&c/McBorder(mb) upsetting"
   - "&7|Update the border through the configuration file"
+  - "&c/McBorder(mb) region-edit-mode"
+  - "&7|Enter region edit mode, directly send keywords during region editing"
 
 insufficient-parameters: "&cInsufficient parameters"
 insufficient-permissions: "&cInsufficient permissions"

@@ -1,6 +1,7 @@
 display: "example-region"
 world: world
 weight: 1
+# At least three nodes are required Any name some_node_X is the example
 nodes:
   some_node_A:
     x: 1.0
@@ -12,14 +13,23 @@ nodes:
     x: 2.0
     z: 3.0
 
+# Adding flags to a region can control many things in the region
+# example
 flags:
   owner: system
-  check-perm-move: "region.example.move"
-  check-perm-join: "region.example.join"
+  check-perm-move: "region.example.move" # player need permission region.example.move to move in this region
+  check-perm-join: "region.example.join" # player need permission region.example.join join this region
+  # Players need permission for region. example. tp.move to teleport within this region
   check-perm-tp-move: "region.example.tp.move"
+  # Players need permission for region. example. tp.join to transfer from other regions to this region
   check-perm-tp-join: "region.example.tp.join"
+  # Prohibit moving from this area to which regions
+  # The symbol '*' indicates that it is prohibited to travel from this area to all areas
+  # Alternatively, specify a name and use the symbol ',' to separate the IDs of each area
   deny-to: "A,B,C,D"
   deny-tp-to: "A,B,C,D"
+
+  # Message prompted when a behavior is rejected
   deny-move-message: "example_region don't move"
   deny-join-message: "example_region don't join"
   deny-to-message: "!from deny go to !to"

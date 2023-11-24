@@ -29,6 +29,8 @@ help:
   - "&7|重载插件"
   - "&c/McBorder(mb) upsetting"
   - "&7|通过配置文件更新边界"
+  - "&c/McBorder(mb) region-edit-mode"
+  - "&7|进入区域编辑模式,区域编辑中直接发送关键词进行区域编辑"
 
 insufficient-parameters: "&c参数不足"
 insufficient-permissions: "&c权限不足"

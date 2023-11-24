@@ -1,3 +1,5 @@
+# default region,When the player is not in a specific region, then in this region
+
 display: "default-region"
 flags:
   owner: system
