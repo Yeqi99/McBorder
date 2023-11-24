@@ -10,22 +10,23 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 
 public class RegionMoveListener implements Listener {
+    public static Sender sender=new Sender(McBorder.getInstance());
     @EventHandler
     public static void onPlayerMove(PlayerMoveEvent e){
         Region region= RegionDataManager.getRegion(e.getFrom());
         Region toRegion= RegionDataManager.getRegion(e.getTo());
         if (!toRegion.allowJoin(e.getPlayer())){
             String message=region.denyMessage("deny_join_message");
-            new Sender(McBorder.getInstance()).sendToPlayer(e.getPlayer(),message);
+            sender.sendToPlayer(e.getPlayer(),message);
             e.setCancelled(true);
             return;
         }
         if (!region.allowMove(e.getPlayer())){
             String message=region.denyMessage("deny_move_message");
-            new Sender(McBorder.getInstance()).sendToPlayer(e.getPlayer(),message);
+            sender.sendToPlayer(e.getPlayer(),message);
             e.setCancelled(true);
         }else {
-            if (toRegion.getId().equals(region.getId())){
+            if (toRegion.getId().equalsIgnoreCase(region.getId())){
                 return;
             }
             if (!region.hasFlag("deny_to")){
@@ -36,11 +37,11 @@ public class RegionMoveListener implements Listener {
                 String message=region.denyMessage("deny_to_message");
                 message=message.replace("!to", toRegion.getDisplay());
                 message=message.replace("!from", region.getDisplay());
-                new Sender(McBorder.getInstance()).sendToPlayer(e.getPlayer(),message);
+                sender.sendToPlayer(e.getPlayer(),message);
                 e.setCancelled(true);
                 return;
             }
-            if (denyTo.contains("|")){
+            if (denyTo.contains(",")){
                 String[] allowRegions=denyTo.split(",");
                 for (String allowRegion : allowRegions) {
                     if (allowRegion.equalsIgnoreCase(toRegion.getId())){

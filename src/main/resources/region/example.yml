@@ -20,3 +20,4 @@ flags:
   deny_move_message: "example_region don't move"
   deny_join_message: "example_region don't join"
   deny_to_message: "!from deny go to !to"
+

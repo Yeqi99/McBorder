@@ -47,7 +47,7 @@ public class Region {
             this.nodes.add(node);
         }
         for (String s : yamlManager.getKeyList(id, "flags", true)) {
-            flags.put(s, yamlManager.get(id, s) + "");
+            flags.put(s, yamlManager.get(id, "flags."+s).toString());
         }
 
     }
