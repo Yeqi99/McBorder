@@ -39,8 +39,8 @@ public class Region {
         this.world = (String) yamlManager.get(id, "world");
         this.weight= (int) yamlManager.get(id,"weight");
         for (String s : yamlManager.getKeyList(id, "nodes", false)) {
-            String xKey = s + ".x";
-            String zKey = s + ".z";
+            String xKey = "nodes." + s + ".x";
+            String zKey = "nodes." + s + ".z";
             double x = (double) yamlManager.get(id, xKey);
             double z = (double) yamlManager.get(id, zKey);
             Node node = new Node(x, z);

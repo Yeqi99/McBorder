@@ -4,6 +4,7 @@ import cn.originmc.plugins.mcborder.command.McBorderCommand;
 import cn.originmc.plugins.mcborder.command.McBorderCompleter;
 import cn.originmc.plugins.mcborder.data.BorderData;
 import cn.originmc.plugins.mcborder.data.LangData;
+import cn.originmc.plugins.mcborder.data.RegionData;
 import cn.originmc.plugins.mcborder.data.manager.BorderDataManager;
 import cn.originmc.plugins.mcborder.data.object.BorderSetting;
 import cn.originmc.plugins.mcborder.hook.PlaceholderAPIHook;
@@ -43,9 +44,10 @@ public final class McBorder extends JavaPlugin {
         }
         LangData.getData();
         BorderData.getData();
+        RegionData.getData();
         PlaceholderAPIHook.hook(getInstance());
         ListenerRegister.register(getInstance(), new RTPListener());
-        if (getConfig().getBoolean("")){
+        if (getConfig().getBoolean("region_move_listener")){
             ListenerRegister.register(getInstance(), new RegionMoveListener());
         }
         if (PlaceholderAPIHook.isLoad()) {

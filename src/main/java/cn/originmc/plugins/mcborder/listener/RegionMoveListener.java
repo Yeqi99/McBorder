@@ -24,7 +24,6 @@ public class RegionMoveListener implements Listener {
             String message=region.denyMessage("deny_move_message");
             new Sender(McBorder.getInstance()).sendToPlayer(e.getPlayer(),message);
             e.setCancelled(true);
-            return;
         }else {
             if (toRegion.getId().equals(region.getId())){
                 return;
