@@ -33,4 +33,5 @@ flags:
   deny-move-message: "example_region don't move"
   deny-join-message: "example_region don't join"
   deny-to-message: "!from deny go to !to"
+  deny-tp-to-message: "!from deny go to !to"
 

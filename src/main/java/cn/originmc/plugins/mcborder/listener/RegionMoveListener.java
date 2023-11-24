@@ -194,7 +194,7 @@ public class RegionMoveListener implements Listener {
                 }
             }else {
                 if (toRegion.getId().equalsIgnoreCase(denyTo)){
-                    String message=region.denyMessage("deny-to-message");
+                    String message=region.denyMessage("deny-tp-to-message");
                     message=message.replace("!to", toRegion.getDisplay());
                     message=message.replace("!from", region.getDisplay());
                     new Sender(McBorder.getInstance()).sendToPlayer(e.getPlayer(),message);
