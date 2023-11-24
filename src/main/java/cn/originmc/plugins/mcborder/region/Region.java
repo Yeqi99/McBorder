@@ -79,6 +79,13 @@ public class Region {
             return true;
         }
     }
+    public boolean allowJoin(Player player) {
+        if (hasFlag("check_perm_join")) {
+            return player.hasPermission(getFlagValue("check_perm_join"));
+        } else {
+            return true;
+        }
+    }
 
     // 判断给定位置是否在区域内的方法
     public boolean isInsideRegion(Location location) {

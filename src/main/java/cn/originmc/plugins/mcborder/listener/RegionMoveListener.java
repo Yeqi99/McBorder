@@ -13,12 +13,19 @@ public class RegionMoveListener implements Listener {
     @EventHandler
     public static void onPlayerMove(PlayerMoveEvent e){
         Region region= RegionDataManager.getRegion(e.getFrom());
+        Region toRegion= RegionDataManager.getRegion(e.getTo());
+        if (!toRegion.allowJoin(e.getPlayer())){
+            String message=region.denyMessage("deny_join_message");
+            new Sender(McBorder.getInstance()).sendToPlayer(e.getPlayer(),message);
+            e.setCancelled(true);
+            return;
+        }
         if (!region.allowMove(e.getPlayer())){
             String message=region.denyMessage("deny_move_message");
             new Sender(McBorder.getInstance()).sendToPlayer(e.getPlayer(),message);
             e.setCancelled(true);
+            return;
         }else {
-            Region toRegion= RegionDataManager.getRegion(e.getTo());
             if (toRegion.getId().equals(region.getId())){
                 return;
             }

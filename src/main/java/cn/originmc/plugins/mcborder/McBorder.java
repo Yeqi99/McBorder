@@ -38,6 +38,8 @@ public final class McBorder extends JavaPlugin {
             saveResource("lang/Chinese.yml", true);
             saveResource("lang/English.yml", true);
             saveResource("border/example.yml", false);
+            saveResource("region/default.yml",false);
+            saveResource("region/example.yml",false);
         }
         LangData.getData();
         BorderData.getData();
