@@ -8,13 +8,11 @@ import cn.originmc.plugins.mcborder.data.manager.RegionDataManager;
 import cn.originmc.plugins.mcborder.region.Node;
 import cn.originmc.plugins.mcborder.region.Region;
 import cn.originmc.plugins.mcborder.util.text.Sender;
-import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -154,17 +152,21 @@ public class RegionMoveListener implements Listener {
     public void onPlayerTeleport(PlayerTeleportEvent e){
         Region region= RegionDataManager.getRegion(e.getFrom());
         Region toRegion= RegionDataManager.getRegion(e.getTo());
+        sender.sendToPlayer(e.getPlayer(),"AAAAAAAAAAAAAAAA");
         if (!toRegion.allowTeleportJoin(e.getPlayer())){
             String message=region.denyMessage("deny-tp-join-message");
             sender.sendToPlayer(e.getPlayer(),message);
             e.setCancelled(true);
             return;
         }
+        sender.sendToPlayer(e.getPlayer(),"BBBBBBBBBBBBBBB");
         if (!region.allowTeleportMove(e.getPlayer())){
             String message=region.denyMessage("deny-tp-move-message");
             sender.sendToPlayer(e.getPlayer(),message);
             e.setCancelled(true);
+            sender.sendToPlayer(e.getPlayer(),"CCCCCCCCCCCCCCC");
         }else {
+            sender.sendToPlayer(e.getPlayer(),"DDDDDDDDDDDDDDD");
             if (toRegion.getId().equalsIgnoreCase(region.getId())){
                 return;
             }
@@ -220,6 +222,9 @@ public class RegionMoveListener implements Listener {
             sender.sendToPlayer(e.getPlayer(),message);
             e.setCancelled(true);
         }else {
+            for (Region region1 : RegionData.regions) {
+                sender.sendToPlayer(e.getPlayer(),region1.getId());
+            }
             if (toRegion.getId().equalsIgnoreCase(region.getId())){
                 return;
             }

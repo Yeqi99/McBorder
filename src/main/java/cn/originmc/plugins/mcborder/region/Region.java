@@ -1,7 +1,9 @@
 package cn.originmc.plugins.mcborder.region;
 
+import cn.originmc.plugins.mcborder.McBorder;
 import cn.originmc.plugins.mcborder.data.manager.LangDataManager;
 import cn.originmc.plugins.mcborder.util.data.YamlManager;
+import cn.originmc.plugins.mcborder.util.text.Sender;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -120,7 +122,7 @@ public class Region {
         if (this.id.equalsIgnoreCase("default")) {
             return true;
         }
-        if (location.getWorld().getName().equalsIgnoreCase(world)){
+        if (!location.getWorld().getName().equalsIgnoreCase(world)){
             return false;
         }
         double x = location.getX();
