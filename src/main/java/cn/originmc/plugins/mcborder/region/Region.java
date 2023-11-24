@@ -1,6 +1,5 @@
 package cn.originmc.plugins.mcborder.region;
 
-import cn.originmc.plugins.mcborder.data.LangData;
 import cn.originmc.plugins.mcborder.data.manager.LangDataManager;
 import cn.originmc.plugins.mcborder.util.data.YamlManager;
 import org.bukkit.Location;
@@ -51,7 +50,21 @@ public class Region {
         }
 
     }
-
+    public void saveToFile(YamlManager yamlManager){
+        yamlManager.create(id);
+        yamlManager.set(id,"display",this.display);
+        yamlManager.set(id,"world",this.world);
+        yamlManager.set(id,"weight",this.weight);
+        for(int i=0;i<nodes.size();i++){
+            Node node=nodes.get(i);
+            yamlManager.set(id,"nodes.node_"+i+".x",node.getX());
+            yamlManager.set(id,"nodes.node_"+i+".z",node.getZ());
+        }
+        for (Map.Entry<String, String> entry : flags.entrySet()) {
+            yamlManager.set(id,"flags."+entry.getKey(),entry.getValue());
+        }
+        yamlManager.save(id);
+    }
     public boolean hasFlag(String flagName) {
         return this.flags.containsKey(flagName);
     }
@@ -73,15 +86,29 @@ public class Region {
         }
     }
     public boolean allowMove(Player player) {
-        if (hasFlag("check_perm_move")) {
-            return player.hasPermission(getFlagValue("check_perm_move"));
+        if (hasFlag("check-perm-move")) {
+            return player.hasPermission(getFlagValue("check-perm-move"));
         } else {
             return true;
         }
     }
     public boolean allowJoin(Player player) {
-        if (hasFlag("check_perm_join")) {
-            return player.hasPermission(getFlagValue("check_perm_join"));
+        if (hasFlag("check-perm-join")) {
+            return player.hasPermission(getFlagValue("check-perm-join"));
+        } else {
+            return true;
+        }
+    }
+    public boolean allowTeleportJoin(Player player) {
+        if (hasFlag("check-perm-tp-join")) {
+            return player.hasPermission(getFlagValue("check-perm-join"));
+        } else {
+            return true;
+        }
+    }
+    public boolean allowTeleportMove(Player player) {
+        if (hasFlag("check-perm-tp-move")) {
+            return player.hasPermission(getFlagValue("check-perm-move"));
         } else {
             return true;
         }
@@ -91,6 +118,9 @@ public class Region {
     public boolean isInsideRegion(Location location) {
         if (this.id.equalsIgnoreCase("default")) {
             return true;
+        }
+        if (location.getWorld().getName().equalsIgnoreCase(world)){
+            return false;
         }
         double x = location.getX();
         double z = location.getZ();

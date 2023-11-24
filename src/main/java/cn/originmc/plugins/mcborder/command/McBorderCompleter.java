@@ -37,6 +37,7 @@ public class McBorderCompleter implements TabCompleter {
             if (sender.hasPermission("McBorder.rtp")) completions.add("rtp");
             if (sender.hasPermission("McBorder.reload")) completions.add("reload");
             if (sender.hasPermission("McBorder.upsetting")) completions.add("upsetting");
+            if (sender.hasPermission("McBorder.region-edit-mode")) completions.add("region-edit-mode");
         } else if (args.length >= 2) {
             // 同样，检查每个子命令的权限，只有玩家拥有对应的权限才能看到相关补全
             String subCommand = args[0];

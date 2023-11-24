@@ -7,6 +7,7 @@ import cn.originmc.plugins.mcborder.data.RegionData;
 import cn.originmc.plugins.mcborder.data.manager.BorderDataManager;
 import cn.originmc.plugins.mcborder.data.object.BorderSetting;
 import cn.originmc.plugins.mcborder.listener.RTPListener;
+import cn.originmc.plugins.mcborder.listener.RegionMoveListener;
 import cn.originmc.plugins.mcborder.util.command.CommandUtil;
 import cn.originmc.plugins.mcborder.util.text.Sender;
 import org.bukkit.*;
@@ -388,6 +389,10 @@ public class McBorderCommand implements CommandExecutor {
             rtp(playerName, worldName);
             return true;
         } else if (cu.is(0, "upsetting")) {
+            if (!cu.isAdmin() && !cu.hasPerm("McBorder.upsetting")) {
+                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
+                return true;
+            }
             for (BorderSetting borderSetting : BorderDataManager.getBorderSetting()) {
                 boolean flag = borderSetting.upWorld();
                 if (flag) {
@@ -395,6 +400,18 @@ public class McBorderCommand implements CommandExecutor {
                 } else {
                     new Sender(McBorder.getInstance()).sendToSender(cu.getSender(), "&cBorder &b" + borderSetting.getWorld() + " &cnot found");
                 }
+            }
+            return true;
+        } else if (cu.is(0, "region-edit-mode")) {
+            if (!cu.isAdmin() && !cu.hasPerm("McBorder.region-edit-mode")) {
+                s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
+                return true;
+            }
+            Player player=cu.getPlayer();
+            if(RegionMoveListener.editors.contains(player.getName())){
+                RegionMoveListener.editors.remove(player.getName());
+            }else {
+                RegionMoveListener.editors.add(player.getName());
             }
             return true;
         }

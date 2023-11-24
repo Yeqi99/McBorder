@@ -1,4 +1,4 @@
-display: "example_region"
+display: "example-region"
 world: world
 weight: 1
 nodes:
@@ -14,10 +14,13 @@ nodes:
 
 flags:
   owner: system
-  check_perm_move: "region.example.move"
-  check_perm_join: "region.example.join"
-  deny_to: "A,B,C,D"
-  deny_move_message: "example_region don't move"
-  deny_join_message: "example_region don't join"
-  deny_to_message: "!from deny go to !to"
+  check-perm-move: "region.example.move"
+  check-perm-join: "region.example.join"
+  check-perm-tp-move: "region.example.tp.move"
+  check-perm-tp-join: "region.example.tp.join"
+  deny-to: "A,B,C,D"
+  deny-tp-to: "A,B,C,D"
+  deny-move-message: "example_region don't move"
+  deny-join-message: "example_region don't join"
+  deny-to-message: "!from deny go to !to"
 
