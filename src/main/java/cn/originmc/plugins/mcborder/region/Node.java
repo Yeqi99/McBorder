@@ -24,4 +24,11 @@ public class Node {
     public void setZ(double z) {
         this.z = z;
     }
+
+    public Location getLocation(Location location){
+        Location loc=location.clone();
+        loc.setX(this.x);
+        loc.setZ(this.z);
+        return loc;
+    }
 }

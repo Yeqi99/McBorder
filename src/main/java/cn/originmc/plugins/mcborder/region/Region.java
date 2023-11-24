@@ -16,7 +16,7 @@ public class Region {
     private String display;
     private String world;
     private int weight = 1;
-    private final List<Node> nodes = new ArrayList<>(); // 用于存储区域节点的列表
+    public final List<Node> nodes = new ArrayList<>(); // 用于存储区域节点的列表
     private final Map<String, String> flags = new LinkedHashMap<>();
 
     // 区域类的构造函数，初始化节点列表
@@ -66,7 +66,7 @@ public class Region {
     }
     public String denyMessage(String flagName){
         if (hasFlag(flagName)){
-            return getFlagValue("deny_message").replace("~",this.display).replace("@",flagName);
+            return getFlagValue(flagName).replace("~",this.display).replace("@",flagName);
         }else {
             return LangDataManager.getText(flagName,"Region ~ deny")
                     .replace("~",this.display);
