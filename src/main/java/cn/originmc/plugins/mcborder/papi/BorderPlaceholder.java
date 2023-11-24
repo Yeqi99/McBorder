@@ -46,12 +46,8 @@ public class BorderPlaceholder extends PlaceholderExpansion {
                 return "false";
             }
             return region.isInsideRegion(player.getLocation())+"";
-        }else if (identifier.toLowerCase().startsWith("region_name_")){
-            String regionId=identifier.replace("region_name_","");
-            Region region= RegionDataManager.getRegion(regionId);
-            if (region==null){
-                return LangDataManager.getText("unknown-region","&未知区域");
-            }
+        }else if (identifier.toLowerCase().startsWith("region_name")){
+            Region region=RegionDataManager.getRegion(player);
             return region.getDisplay();
         }
         return "2";
