@@ -7,3 +7,5 @@ rtp:
   fall_immunity_time: 10000 # when rtp, the player will be immune to damage for a period of time
   falling_height: 384 # when rtp, the player will be teleported to a random location in the range of the border, and the height will be falling_height
 on_enable_setting_update: true # Whether to update the border when the plugin is enabled
+
+region_move_listener: true

@@ -1,0 +1,20 @@
+display: "example_region"
+world: world
+weight: 1
+nodes:
+  some_node_A:
+    x: 1.0
+    z: 10.0
+  some_node_B:
+    x: 2.0
+    z: 3.0
+  some_node_C:
+    x: 2.0
+    z: 3.0
+
+flags:
+  owner: system
+  check_perm_move: "region.example.move"
+  deny_move_message: "example_region no pass"
+  deny_to_message: "!from deny go to !to"
+  deny_to: "A,B,C,D"

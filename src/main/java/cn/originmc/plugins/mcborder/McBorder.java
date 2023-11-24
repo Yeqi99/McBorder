@@ -8,6 +8,7 @@ import cn.originmc.plugins.mcborder.data.manager.BorderDataManager;
 import cn.originmc.plugins.mcborder.data.object.BorderSetting;
 import cn.originmc.plugins.mcborder.hook.PlaceholderAPIHook;
 import cn.originmc.plugins.mcborder.listener.RTPListener;
+import cn.originmc.plugins.mcborder.listener.RegionMoveListener;
 import cn.originmc.plugins.mcborder.papi.BiomePlaceholder;
 import cn.originmc.plugins.mcborder.papi.BorderPlaceholder;
 import cn.originmc.plugins.mcborder.util.register.CommandRegister;
@@ -42,6 +43,9 @@ public final class McBorder extends JavaPlugin {
         BorderData.getData();
         PlaceholderAPIHook.hook(getInstance());
         ListenerRegister.register(getInstance(), new RTPListener());
+        if (getConfig().getBoolean("")){
+            ListenerRegister.register(getInstance(), new RegionMoveListener());
+        }
         if (PlaceholderAPIHook.isLoad()) {
             new BiomePlaceholder().register();
             new BorderPlaceholder().register();
@@ -49,7 +53,7 @@ public final class McBorder extends JavaPlugin {
         CommandRegister.register(getInstance(), new McBorderCommand(), "McBorder");
         CompleterRegister.register(getInstance(), new McBorderCompleter(), "McBorder");
         new Sender(this).sendToLogger("");
-        new Sender(this).sendToLogger("&b     McBorder  v2.7-Dependency  Successfully loaded");
+        new Sender(this).sendToLogger("&b     McBorder  v3.0-Dependency  Successfully loaded");
         new Sender(this).sendToLogger("&d                    Made by Yeqi");
         new Sender(this).sendToLogger("");
         if (getConfig().getBoolean("on_enable_setting_update", false)) {
@@ -68,7 +72,7 @@ public final class McBorder extends JavaPlugin {
     @Override
     public void onDisable() {
         new Sender(this).sendToLogger("");
-        new Sender(this).sendToLogger("&b     McBorder  v2.7-Dependency  Successfully unloaded");
+        new Sender(this).sendToLogger("&b     McBorder  v3.0-Dependency  Successfully unloaded");
         new Sender(this).sendToLogger("&d                    Made by Yeqi");
         new Sender(this).sendToLogger("");
     }

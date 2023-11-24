@@ -1,5 +1,11 @@
 package cn.originmc.plugins.mcborder.papi;
 
+import cn.originmc.plugins.mcborder.McBorder;
+import cn.originmc.plugins.mcborder.data.LangData;
+import cn.originmc.plugins.mcborder.data.RegionData;
+import cn.originmc.plugins.mcborder.data.manager.LangDataManager;
+import cn.originmc.plugins.mcborder.data.manager.RegionDataManager;
+import cn.originmc.plugins.mcborder.region.Region;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 
@@ -16,7 +22,7 @@ public class BorderPlaceholder extends PlaceholderExpansion {
 
     @Override
     public String getVersion() {
-        return "2.4"; // 您的插件版本
+        return "3.0"; // 您的插件版本
     }
 
     // 处理自定义变量的逻辑
@@ -26,15 +32,28 @@ public class BorderPlaceholder extends PlaceholderExpansion {
             return "1";
         }
         if (identifier.equalsIgnoreCase("BorderSize")) {
-            return player.getWorld().getWorldBorder().getSize()+"";
+            return player.getWorld().getWorldBorder().getSize() + "";
         } else if (identifier.equalsIgnoreCase("BorderCenterX")) {
-            return player.getWorld().getWorldBorder().getCenter().getBlockX()+"";
+            return player.getWorld().getWorldBorder().getCenter().getBlockX() + "";
         } else if (identifier.equalsIgnoreCase("BorderCenterZ")) {
-            return player.getWorld().getWorldBorder().getCenter().getBlockZ()+"";
+            return player.getWorld().getWorldBorder().getCenter().getBlockZ() + "";
         } else if (identifier.equalsIgnoreCase("BorderOutDamage")) {
-            return player.getWorld().getWorldBorder().getDamageAmount()+"";
+            return player.getWorld().getWorldBorder().getDamageAmount() + "";
+        } else if (identifier.toLowerCase().startsWith("region_in_")){
+            String regionId=identifier.replace("region_in_","");
+            Region region= RegionDataManager.getRegion(regionId);
+            if (region==null){
+                return "false";
+            }
+            return region.isInsideRegion(player.getLocation())+"";
+        }else if (identifier.toLowerCase().startsWith("region_name_")){
+            String regionId=identifier.replace("region_name_","");
+            Region region= RegionDataManager.getRegion(regionId);
+            if (region==null){
+                return LangDataManager.getText("unknown-region","&未知区域");
+            }
+            return region.getDisplay();
         }
-
         return "2";
     }
 }

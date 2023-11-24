@@ -1,0 +1,4 @@
+display: "default_region"
+flags:
+  owner: system
+  deny_message: "example_region no pass"
