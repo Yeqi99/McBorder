@@ -104,14 +104,14 @@ public class Region {
     }
     public boolean allowTeleportJoin(Player player) {
         if (hasFlag("check-perm-tp-join")) {
-            return player.hasPermission(getFlagValue("check-perm-join"));
+            return player.hasPermission(getFlagValue("check-perm-tp-join"));
         } else {
             return true;
         }
     }
     public boolean allowTeleportMove(Player player) {
         if (hasFlag("check-perm-tp-move")) {
-            return player.hasPermission(getFlagValue("check-perm-move"));
+            return player.hasPermission(getFlagValue("check-perm-tp-move"));
         } else {
             return true;
         }

@@ -138,10 +138,36 @@ public class RegionMoveListener implements Listener {
             String key=args[1];
             String value=args[2];
             region.getFlags().put(key,value);
-        }else {
+        }else if(e.getMessage().toLowerCase().contains("set")){
+            String[] args=e.getMessage().split(" ");
+            int index= Integer.parseInt(args[1]);
+            if (index<0 || index>region.nodes.size()){
+                e.setCancelled(true);
+                return;
+            }
+            Node node=new Node(player.getX(),player.getZ());
+            region.nodes.set(index,node);
+        }else if(e.getMessage().toLowerCase().contains("remove")){
+            String[] args=e.getMessage().split(" ");
+            int index= Integer.parseInt(args[1]);
+            if (index<0 || index>region.nodes.size()){
+                e.setCancelled(true);
+                return;
+            }
+            region.nodes.remove(index);
+        } else if(e.getMessage().toLowerCase().contains("clear")){
+            String[] args=e.getMessage().split(" ");
+            int index= Integer.parseInt(args[1]);
+            if (index<0 || index>region.nodes.size()){
+                e.setCancelled(true);
+                return;
+            }
+            region.nodes.clear();
+        }  else {
             sender.sendToPlayer(player,"usage:add/save/exit/tp <index>/look/region <id>");
             sender.sendToPlayer(player,"usage:id <id>/display <display>/weight <weight>/world <world>");
             sender.sendToPlayer(player,"usage:insert <index>/flag <key> <value>");
+            sender.sendToPlayer(player,"usage:set <index>/remove <index>/clear");
         }
         e.setCancelled(true);
     }
@@ -152,21 +178,17 @@ public class RegionMoveListener implements Listener {
     public void onPlayerTeleport(PlayerTeleportEvent e){
         Region region= RegionDataManager.getRegion(e.getFrom());
         Region toRegion= RegionDataManager.getRegion(e.getTo());
-        sender.sendToPlayer(e.getPlayer(),"AAAAAAAAAAAAAAAA");
-        if (!toRegion.allowTeleportJoin(e.getPlayer())){
+        if (!toRegion.allowTeleportJoin(e.getPlayer()) && !region.getId().equalsIgnoreCase(toRegion.getId())){
             String message=region.denyMessage("deny-tp-join-message");
             sender.sendToPlayer(e.getPlayer(),message);
             e.setCancelled(true);
             return;
         }
-        sender.sendToPlayer(e.getPlayer(),"BBBBBBBBBBBBBBB");
         if (!region.allowTeleportMove(e.getPlayer())){
             String message=region.denyMessage("deny-tp-move-message");
             sender.sendToPlayer(e.getPlayer(),message);
             e.setCancelled(true);
-            sender.sendToPlayer(e.getPlayer(),"CCCCCCCCCCCCCCC");
         }else {
-            sender.sendToPlayer(e.getPlayer(),"DDDDDDDDDDDDDDD");
             if (toRegion.getId().equalsIgnoreCase(region.getId())){
                 return;
             }
@@ -211,7 +233,7 @@ public class RegionMoveListener implements Listener {
     public void onPlayerMove(PlayerMoveEvent e){
         Region region= RegionDataManager.getRegion(e.getFrom());
         Region toRegion= RegionDataManager.getRegion(e.getTo());
-        if (!toRegion.allowJoin(e.getPlayer())){
+        if (!toRegion.allowJoin(e.getPlayer()) && !region.getId().equalsIgnoreCase(toRegion.getId())){
             String message=region.denyMessage("deny-join-message");
             sender.sendToPlayer(e.getPlayer(),message);
             e.setCancelled(true);
@@ -222,9 +244,6 @@ public class RegionMoveListener implements Listener {
             sender.sendToPlayer(e.getPlayer(),message);
             e.setCancelled(true);
         }else {
-            for (Region region1 : RegionData.regions) {
-                sender.sendToPlayer(e.getPlayer(),region1.getId());
-            }
             if (toRegion.getId().equalsIgnoreCase(region.getId())){
                 return;
             }
