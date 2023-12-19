@@ -9,7 +9,7 @@ import cn.originmc.plugins.mcborder.data.manager.BorderDataManager;
 import cn.originmc.plugins.mcborder.data.object.BorderSetting;
 import cn.originmc.plugins.mcborder.hook.PlaceholderAPIHook;
 import cn.originmc.plugins.mcborder.listener.RTPListener;
-import cn.originmc.plugins.mcborder.listener.RegionMoveListener;
+import cn.originmc.plugins.mcborder.listener.RegionListener;
 import cn.originmc.plugins.mcborder.papi.BiomePlaceholder;
 import cn.originmc.plugins.mcborder.papi.BorderPlaceholder;
 import cn.originmc.plugins.mcborder.util.register.CommandRegister;
@@ -48,7 +48,7 @@ public final class McBorder extends JavaPlugin {
         PlaceholderAPIHook.hook(getInstance());
         ListenerRegister.register(getInstance(), new RTPListener());
         if (getConfig().getBoolean("region_move_listener")){
-            ListenerRegister.register(getInstance(), new RegionMoveListener());
+            ListenerRegister.register(getInstance(), new RegionListener());
         }
         if (PlaceholderAPIHook.isLoad()) {
             new BiomePlaceholder().register();

@@ -114,6 +114,30 @@ public class Region {
         }
     }
 
+    public boolean allowInteract(Player player) {
+        if (hasFlag("check-perm-interact")) {
+            return player.hasPermission(getFlagValue("check-perm-interact"));
+        } else {
+            return true;
+        }
+    }
+
+    public boolean allowBreak(Player player) {
+        if (hasFlag("check-perm-break")) {
+            return player.hasPermission(getFlagValue("check-perm-break"));
+        } else {
+            return true;
+        }
+    }
+
+    public boolean allowPlace(Player player) {
+        if (hasFlag("check-perm-place")) {
+            return player.hasPermission(getFlagValue("check-perm-place"));
+        } else {
+            return true;
+        }
+    }
+
     public boolean allowTeleportJoin(Player player) {
         if (hasFlag("check-perm-tp-join")) {
             return player.hasPermission(getFlagValue("check-perm-tp-join"));

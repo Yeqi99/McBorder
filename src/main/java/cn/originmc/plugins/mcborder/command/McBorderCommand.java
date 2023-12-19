@@ -7,7 +7,7 @@ import cn.originmc.plugins.mcborder.data.RegionData;
 import cn.originmc.plugins.mcborder.data.manager.BorderDataManager;
 import cn.originmc.plugins.mcborder.data.object.BorderSetting;
 import cn.originmc.plugins.mcborder.listener.RTPListener;
-import cn.originmc.plugins.mcborder.listener.RegionMoveListener;
+import cn.originmc.plugins.mcborder.listener.RegionListener;
 import cn.originmc.plugins.mcborder.util.command.CommandUtil;
 import cn.originmc.plugins.mcborder.util.text.Sender;
 import org.bukkit.*;
@@ -408,10 +408,10 @@ public class McBorderCommand implements CommandExecutor {
                 return true;
             }
             Player player = cu.getPlayer();
-            if (RegionMoveListener.editors.contains(player.getName())) {
-                RegionMoveListener.editors.remove(player.getName());
+            if (RegionListener.editors.contains(player.getName())) {
+                RegionListener.editors.remove(player.getName());
             } else {
-                RegionMoveListener.editors.add(player.getName());
+                RegionListener.editors.add(player.getName());
             }
             return true;
         }

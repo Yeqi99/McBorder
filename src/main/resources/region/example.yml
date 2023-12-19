@@ -31,9 +31,16 @@ flags:
   deny-to: "A,B,C,D"
   deny-tp-to: "A,B,C,D"
 
+  # check-perm-break: "region.example.break"
+  # check-perm-place: "region.example.place"
+  # check-perm-interact: "region.example.interact"
+
   # Message prompted when a behavior is rejected
   deny-move-message: "example_region don't move"
   deny-join-message: "example_region don't join"
   deny-to-message: "!from deny go to !to"
   deny-tp-to-message: "!from deny go to !to"
+  deny-interact-message: "example_region does not allow interaction"
+  deny-break-message: "example_region does not allow break"
+  deny-place-message: "example_region does not allow place"
 
