@@ -407,10 +407,10 @@ public class McBorderCommand implements CommandExecutor {
                 s.sendToSender(sender, (String) LangData.getYamlManager().get(McBorder.getLang(), "insufficient-permissions", "&c权限不足"));
                 return true;
             }
-            Player player=cu.getPlayer();
-            if(RegionMoveListener.editors.contains(player.getName())){
+            Player player = cu.getPlayer();
+            if (RegionMoveListener.editors.contains(player.getName())) {
                 RegionMoveListener.editors.remove(player.getName());
-            }else {
+            } else {
                 RegionMoveListener.editors.add(player.getName());
             }
             return true;

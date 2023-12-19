@@ -1,6 +1,8 @@
 display: "example-region"
 world: world
 weight: 1
+# maxHeight: 384
+# minHeight: -64
 # At least three nodes are required Any name some_node_X is the example
 nodes:
   some_node_A:

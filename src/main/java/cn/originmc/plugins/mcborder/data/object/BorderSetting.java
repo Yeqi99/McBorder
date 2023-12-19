@@ -5,8 +5,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 
-import java.util.concurrent.TimeUnit;
-
 public class BorderSetting {
     private double x;
     private double z;

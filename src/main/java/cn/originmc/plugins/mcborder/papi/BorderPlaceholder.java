@@ -1,9 +1,5 @@
 package cn.originmc.plugins.mcborder.papi;
 
-import cn.originmc.plugins.mcborder.McBorder;
-import cn.originmc.plugins.mcborder.data.LangData;
-import cn.originmc.plugins.mcborder.data.RegionData;
-import cn.originmc.plugins.mcborder.data.manager.LangDataManager;
 import cn.originmc.plugins.mcborder.data.manager.RegionDataManager;
 import cn.originmc.plugins.mcborder.region.Region;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;

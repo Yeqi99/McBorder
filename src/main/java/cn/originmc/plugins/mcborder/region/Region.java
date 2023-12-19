@@ -1,9 +1,7 @@
 package cn.originmc.plugins.mcborder.region;
 
-import cn.originmc.plugins.mcborder.McBorder;
 import cn.originmc.plugins.mcborder.data.manager.LangDataManager;
 import cn.originmc.plugins.mcborder.util.data.YamlManager;
-import cn.originmc.plugins.mcborder.util.text.Sender;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -19,6 +17,8 @@ public class Region {
     private int weight = 1;
     public final List<Node> nodes = new ArrayList<>(); // 用于存储区域节点的列表
     private final Map<String, String> flags = new LinkedHashMap<>();
+    private double maxHeight = 9999;
+    private double minHeight = -9999;
 
     // 区域类的构造函数，初始化节点列表
     public Region() {
@@ -29,7 +29,7 @@ public class Region {
             this.id = id;
             this.display = (String) yamlManager.get(id, "display");
             this.world = null;
-            this.weight=-1;
+            this.weight = -1;
             for (String s : yamlManager.getKeyList(id, "flags", true)) {
                 flags.put(s, yamlManager.get(id, s) + "");
             }
@@ -38,7 +38,13 @@ public class Region {
         this.id = id;
         this.display = (String) yamlManager.get(id, "display");
         this.world = (String) yamlManager.get(id, "world");
-        this.weight= (int) yamlManager.get(id,"weight");
+        this.weight = (int) yamlManager.get(id, "weight");
+        if (yamlManager.has(id, "maxHeight")) {
+            this.maxHeight = (double) yamlManager.get(id, "maxHeight");
+        }
+        if (yamlManager.has(id, "minHeight")) {
+            this.maxHeight = (double) yamlManager.get(id, "minHeight");
+        }
         for (String s : yamlManager.getKeyList(id, "nodes", false)) {
             String xKey = "nodes." + s + ".x";
             String zKey = "nodes." + s + ".z";
@@ -47,27 +53,29 @@ public class Region {
             Node node = new Node(x, z);
             this.nodes.add(node);
         }
-        if (yamlManager.has(id,"flags")){
+        if (yamlManager.has(id, "flags")) {
             for (String s : yamlManager.getKeyList(id, "flags", true)) {
-                flags.put(s, yamlManager.get(id, "flags."+s).toString());
+                flags.put(s, yamlManager.get(id, "flags." + s).toString());
             }
         }
     }
-    public void saveToFile(YamlManager yamlManager){
+
+    public void saveToFile(YamlManager yamlManager) {
         yamlManager.create(id);
-        yamlManager.set(id,"display",this.display);
-        yamlManager.set(id,"world",this.world);
-        yamlManager.set(id,"weight",this.weight);
-        for(int i=0;i<nodes.size();i++){
-            Node node=nodes.get(i);
-            yamlManager.set(id,"nodes.node_"+i+".x",node.getX());
-            yamlManager.set(id,"nodes.node_"+i+".z",node.getZ());
+        yamlManager.set(id, "display", this.display);
+        yamlManager.set(id, "world", this.world);
+        yamlManager.set(id, "weight", this.weight);
+        for (int i = 0; i < nodes.size(); i++) {
+            Node node = nodes.get(i);
+            yamlManager.set(id, "nodes.node_" + i + ".x", node.getX());
+            yamlManager.set(id, "nodes.node_" + i + ".z", node.getZ());
         }
         for (Map.Entry<String, String> entry : flags.entrySet()) {
-            yamlManager.set(id,"flags."+entry.getKey(),entry.getValue());
+            yamlManager.set(id, "flags." + entry.getKey(), entry.getValue());
         }
         yamlManager.save(id);
     }
+
     public boolean hasFlag(String flagName) {
         return this.flags.containsKey(flagName);
     }
@@ -80,14 +88,16 @@ public class Region {
     public void addNode(Node node) {
         nodes.add(node);
     }
-    public String denyMessage(String flagName){
-        if (hasFlag(flagName)){
-            return getFlagValue(flagName).replace("~",this.display).replace("@",flagName);
-        }else {
-            return LangDataManager.getText(flagName,"Region ~ deny")
-                    .replace("~",this.display);
+
+    public String denyMessage(String flagName) {
+        if (hasFlag(flagName)) {
+            return getFlagValue(flagName).replace("~", this.display).replace("@", flagName);
+        } else {
+            return LangDataManager.getText(flagName, "Region ~ deny")
+                    .replace("~", this.display);
         }
     }
+
     public boolean allowMove(Player player) {
         if (hasFlag("check-perm-move")) {
             return player.hasPermission(getFlagValue("check-perm-move"));
@@ -95,6 +105,7 @@ public class Region {
             return true;
         }
     }
+
     public boolean allowJoin(Player player) {
         if (hasFlag("check-perm-join")) {
             return player.hasPermission(getFlagValue("check-perm-join"));
@@ -102,6 +113,7 @@ public class Region {
             return true;
         }
     }
+
     public boolean allowTeleportJoin(Player player) {
         if (hasFlag("check-perm-tp-join")) {
             return player.hasPermission(getFlagValue("check-perm-tp-join"));
@@ -109,6 +121,7 @@ public class Region {
             return true;
         }
     }
+
     public boolean allowTeleportMove(Player player) {
         if (hasFlag("check-perm-tp-move")) {
             return player.hasPermission(getFlagValue("check-perm-tp-move"));
@@ -122,7 +135,10 @@ public class Region {
         if (this.id.equalsIgnoreCase("default")) {
             return true;
         }
-        if (!location.getWorld().getName().equalsIgnoreCase(world)){
+        if (!location.getWorld().getName().equalsIgnoreCase(world)) {
+            return false;
+        }
+        if (location.getY() < this.minHeight || location.getY() > this.maxHeight) {
             return false;
         }
         double x = location.getX();
@@ -184,5 +200,21 @@ public class Region {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public double getMaxHeight() {
+        return maxHeight;
+    }
+
+    public void setMaxHeight(double maxHeight) {
+        this.maxHeight = maxHeight;
+    }
+
+    public double getMinHeight() {
+        return minHeight;
+    }
+
+    public void setMinHeight(double minHeight) {
+        this.minHeight = minHeight;
     }
 }

@@ -1,8 +1,6 @@
 package cn.originmc.plugins.mcborder.command;
 
 
-import cn.originmc.plugins.mcborder.BiomeTranslation;
-import cn.originmc.plugins.mcborder.McBorder;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Biome;

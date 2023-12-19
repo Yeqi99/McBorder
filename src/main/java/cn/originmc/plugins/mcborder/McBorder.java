@@ -57,7 +57,7 @@ public final class McBorder extends JavaPlugin {
         CommandRegister.register(getInstance(), new McBorderCommand(), "McBorder");
         CompleterRegister.register(getInstance(), new McBorderCompleter(), "McBorder");
         new Sender(this).sendToLogger("");
-        new Sender(this).sendToLogger("&b     McBorder  v3.0.2b1-Dependency  Successfully loaded");
+        new Sender(this).sendToLogger("&b     McBorder  v3.0.3-Dependency  Successfully loaded");
         new Sender(this).sendToLogger("&d                    Made by Yeqi");
         new Sender(this).sendToLogger("");
         if (getConfig().getBoolean("on_enable_setting_update", false)) {
@@ -76,7 +76,7 @@ public final class McBorder extends JavaPlugin {
     @Override
     public void onDisable() {
         new Sender(this).sendToLogger("");
-        new Sender(this).sendToLogger("&b     McBorder  v3.0.2b1-Dependency  Successfully unloaded");
+        new Sender(this).sendToLogger("&b     McBorder  v3.0.3-Dependency  Successfully unloaded");
         new Sender(this).sendToLogger("&d                    Made by Yeqi");
         new Sender(this).sendToLogger("");
     }
