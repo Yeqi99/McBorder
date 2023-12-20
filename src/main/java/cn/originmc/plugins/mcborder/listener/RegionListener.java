@@ -287,6 +287,9 @@ public class RegionListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
+        if (e.getInteractionPoint()==null){
+            return;
+        }
         Region region = RegionDataManager.getRegion(e.getInteractionPoint());
         if (!region.allowInteract(e.getPlayer())) {
             String message = region.denyMessage("deny-interact-message");

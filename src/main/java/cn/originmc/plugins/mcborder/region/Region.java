@@ -159,6 +159,9 @@ public class Region {
         if (this.id.equalsIgnoreCase("default")) {
             return true;
         }
+        if (location == null) {
+            return false;
+        }
         if (!location.getWorld().getName().equalsIgnoreCase(world)) {
             return false;
         }
