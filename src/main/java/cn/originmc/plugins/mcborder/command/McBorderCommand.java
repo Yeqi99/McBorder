@@ -484,18 +484,15 @@ public class McBorderCommand implements CommandExecutor {
         return min + (int) (Math.random() * ((max - min) + 1));
     }
 
-    public static String getVersion() {
-        Server server = Bukkit.getServer();
-        String version = server.getVersion().toLowerCase();
 
-        // 判断是否为 Paper 环境
-        return version;
-    }
 
     public static boolean isPaper() {
         return getVersion().contains("paper");
     }
-
+    public static String getVersion() {
+        Server server = Bukkit.getServer();
+        return server.getVersion().toLowerCase();
+    }
     public static boolean isFolia() {
         return getVersion().contains("folia");
     }
