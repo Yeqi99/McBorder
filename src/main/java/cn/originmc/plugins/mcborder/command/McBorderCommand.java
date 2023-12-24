@@ -440,7 +440,7 @@ public class McBorderCommand implements CommandExecutor {
         worldBorder.setDamageAmount(damageAmount);
     }
 
-    public boolean rtp(String playerName, String worldName) {
+    public static boolean rtp(String playerName, String worldName) {
         Player player = Bukkit.getPlayer(playerName);
 
         // 检查玩家是否在线
@@ -480,7 +480,7 @@ public class McBorderCommand implements CommandExecutor {
     }
 
     // 辅助方法：生成指定范围内的随机整数
-    private int randInt(int min, int max) {
+    private static int randInt(int min, int max) {
         return min + (int) (Math.random() * ((max - min) + 1));
     }
 
